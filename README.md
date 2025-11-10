@@ -17,7 +17,7 @@ Duration: 1 month (November 10 - December 8, 2025)
 
 The project is divided into 4 main phases:
 
-### 📚 [Phase 1: Foundation Setup & Team Workflow](.doc/Phase1/01-PHASE1-FOUNDATION.md)
+### 📚 [Phase 1: Foundation Setup & Team Workflow](/doc/Phase1/01-PHASE1-FOUNDATION.md)
 **Duration**: November 10-14, 2025
 **Objective**: Establish GitHub Organization foundation and team workflows
 
@@ -28,7 +28,7 @@ The project is divided into 4 main phases:
 - Create Repository and documentation
 - Design Test Plans
 
-### 🚀 [Phase 2: CI/CD, Environments & Secrets](.doc/Phase2/02-PHASE2-CICD.md)
+### 🚀 [Phase 2: CI/CD, Environments & Secrets](/doc/Phase2/02-PHASE2-CICD.md)
 **Duration**: November 17-21, 2025
 **Objective**: Build CI/CD pipeline and manage environments and secrets securely
 
@@ -39,7 +39,7 @@ The project is divided into 4 main phases:
 - Connect Secrets and External Services
 - Create Quality Gates
 
-### 🔒 [Phase 3: Security, Branch Protection & Vulnerability Fixes](.doc/Phase3/03-PHASE3-SECURITY.md)
+### 🔒 [Phase 3: Security, Branch Protection & Vulnerability Fixes](/doc/Phase3/03-PHASE3-SECURITY.md)
 **Duration**: November 24-28, 2025
 **Objective**: Enhance codebase security and establish security policies
 
@@ -50,7 +50,7 @@ The project is divided into 4 main phases:
 - Design Security Test Cases
 - Test Alerting systems
 
-### 🤖 [Phase 4: Automation, Auto PR Review & Agent Integration](.doc/Phase4/04-PHASE4-AUTOMATION.md)
+### 🤖 [Phase 4: Automation, Auto PR Review & Agent Integration](/doc/Phase4/04-PHASE4-AUTOMATION.md)
 **Duration**: December 1-4, 2025
 **Objective**: Elevate workflows with automation and AI agents
 
