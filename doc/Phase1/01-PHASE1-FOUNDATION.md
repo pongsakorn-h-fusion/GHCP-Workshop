@@ -34,7 +34,7 @@ Establish the foundational structure of the GitHub Organization and team workflo
 **Responsible**: PM
 **Feature**: GitHub Projects / Organization Setup
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-01-PM-Organization.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-01-PM-Organization.md)**
 
 #### Details
 - Define Organization structure
@@ -58,7 +58,7 @@ Establish the foundational structure of the GitHub Organization and team workflo
 **Responsible**: PM
 **Feature**: GitHub Issues / Templates
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-02-PM-Issue-Templates.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-02-PM-Issue-Templates.md)**
 
 #### Details
 - Design templates for Bug Report, Feature Request, Task
@@ -104,7 +104,7 @@ Establish the foundational structure of the GitHub Organization and team workflo
 **Responsible**: PM
 **Feature**: Copilot Administration / Setup
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-03-PM-Copilot.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-03-PM-Copilot.md)**
 
 #### Details
 - Understand Copilot usage scope for each role
@@ -135,7 +135,7 @@ Establish the foundational structure of the GitHub Organization and team workflo
 **Responsible**: Developer
 **Feature**: GitHub Repositories
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-04-DEV-Repository.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-04-DEV-Repository.md)**
 
 #### Details
 - Set up main repository
@@ -182,7 +182,7 @@ git config user.email "your.email@company.com"
 **Responsible**: Developer
 **Feature**: Copilot Chat / Documentation Assist
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-05-DEV-Documentation.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-05-DEV-Documentation.md)**
 
 #### Details
 - Use Copilot Chat to help draft documentation
@@ -259,7 +259,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 **Responsible**: Developer
 **Feature**: GitHub Issues / Templates
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-06-DEV-Labels.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-06-DEV-Labels.md)**
 
 #### Details
 - Create label system according to team guidelines
@@ -323,7 +323,7 @@ main (production)
 **Responsible**: QA
 **Feature**: GitHub Issues / Templates
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-07-QA-Test-Plan.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-07-QA-Test-Plan.md)**
 
 #### Details
 - Create test plan template in Issues
@@ -411,7 +411,7 @@ Additional information
 **Responsible**: QA
 **Feature**: General Copilot Usage
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-08-QA-Bug-Severity.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-08-QA-Bug-Severity.md)**
 
 #### Details
 - Design bug severity classification system (Critical, High, Medium, Low)
@@ -472,7 +472,7 @@ Additional information
 **Responsible**: QA
 **Feature**: Copilot Test Generation / GitHub Actions
 
-📖 **[View Detailed Task Guide →](../plan/tasks/Task-09-QA-Test-Data.md)**
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-09-QA-Test-Data.md)**
 
 #### Details
 - Collect test data for initial testing
