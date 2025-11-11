@@ -89,6 +89,127 @@ The project is divided into 4 main phases:
 
 ---
 
+## GitHub Token Permissions Required
+
+For workflows and automation in this project to function properly, you need a GitHub Token (Personal Access Token or GitHub App) with the following permissions:
+
+### 🔑 Required Permissions
+
+#### Repository Permissions
+| Permission | Access Level | Purpose | Used In |
+|------------|--------------|---------|---------|
+| **Actions** | Read & Write | Manage workflow runs, cancel workflows | Phase 2: CI/CD Monitoring |
+| **Contents** | Read & Write | Checkout code, create commits, push changes | All Phases |
+| **Issues** | Read & Write | Create/update issues from test failures, security alerts | Phase 1-4 |
+| **Pull Requests** | Read & Write | Comment on PRs, create PRs, approve/request changes | Phase 2-4 |
+| **Checks** | Read & Write | Create and update status checks, test results | Phase 2: Quality Gates |
+| **Deployments** | Read & Write | Manage deployments to environments | Phase 2: Environment Deployment |
+| **Metadata** | Read | Read repository metadata (required) | All Phases |
+| **Secrets** | Read | Read repository secrets in workflows | Phase 2: Secrets Management |
+| **Security Events** | Read & Write | Secret scanning, code scanning alerts | Phase 3: Security |
+| **Vulnerability Alerts** | Read | Read Dependabot alerts | Phase 3: Security |
+| **Pages** | Read & Write | Deploy dashboards to GitHub Pages | Phase 2: Monitoring Dashboard |
+| **Statuses** | Read & Write | Create/update commit statuses | Phase 2: CI/CD Pipeline |
+| **Packages** | Read & Write | Publish/download packages (if applicable) | Phase 2: Artifact Management |
+
+#### Organization Permissions (if using Organization-level)
+| Permission | Access Level | Purpose | Used In |
+|------------|--------------|---------|---------|
+| **Members** | Read | Read organization member information | Phase 1: Team Setup |
+| **Administration** | Read | Read organization settings | Phase 1: Organization Setup |
+
+#### Additional Permissions
+| Permission | Access Level | Purpose | Used In |
+|------------|--------------|---------|---------|
+| **id-token** | Write | OIDC authentication for GitHub Pages/Azure | Phase 2: Deployment |
+
+### 📋 How to Create GitHub Token
+
+#### Option 1: Personal Access Token (Classic)
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Click "Generate new token (classic)"
+3. Set token name: "GHCP-Workshop-Token"
+4. Select Expiration: 90 days (or according to company policy)
+5. Select scopes according to the table above:
+   - ✅ `repo` (Full control of private repositories)
+   - ✅ `workflow` (Update GitHub Actions workflows)
+   - ✅ `write:packages` (Upload packages)
+   - ✅ `read:org` (Read org data)
+   - ✅ `write:discussion` (Create discussions - if needed)
+6. Click "Generate token" and store it securely
+
+#### Option 2: Fine-grained Personal Access Token (Recommended)
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Fine-grained tokens
+2. Click "Generate new token"
+3. Configure:
+   - Token name: "GHCP-Workshop-Token"
+   - Expiration: 90 days
+   - Repository access: "All repositories" or select specific repositories
+4. Select Repository permissions according to the table above
+5. Select Organization permissions (if needed)
+6. Click "Generate token" and store it securely
+
+#### Option 3: GitHub App (Recommended for Production)
+1. Create a GitHub App in Organization settings
+2. Configure permissions as specified in the table
+3. Install App in desired repositories
+4. Use App ID and Private Key for authentication
+
+### 🔒 Token Security Best Practices
+
+1. **Never Expose Tokens**:
+   - ❌ Do NOT commit tokens to repository
+   - ❌ Do NOT share tokens via chat/email
+   - ✅ Store in GitHub Secrets only
+
+2. **Use Least Privilege**:
+   - Select only the permissions that are absolutely necessary
+   - Use Fine-grained tokens instead of Classic tokens when possible
+
+3. **Rotation Schedule**:
+   - Rotate tokens every 90 days
+   - Rotate immediately if you suspect a token has been compromised
+
+4. **Audit Regularly**:
+   - Review token usage in Settings → Personal access tokens
+   - Delete unused tokens
+
+### 📝 Token Usage in Workflows
+
+Add token as repository secret:
+
+```bash
+# 1. Go to Repository → Settings → Secrets and variables → Actions
+# 2. Click "New repository secret"
+# 3. Name: GITHUB_TOKEN (or GH_TOKEN)
+# 4. Value: [paste your token]
+```
+
+Use in workflow:
+
+```yaml
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  - name: Create issue
+    uses: actions/github-script@v7
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      script: |
+        await github.rest.issues.create({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          title: 'Automated issue'
+        });
+```
+
+**Note**: GitHub Actions provides an auto-generated `GITHUB_TOKEN` with limited permissions. If you need additional permissions, you must use a Personal Access Token or GitHub App.
+
+---
+
 ## Overall Preparation Checklist
 
 ### Personnel
@@ -96,6 +217,8 @@ The project is divided into 4 main phases:
 - [ ] Copilot licenses activated for everyone
 - [ ] Roles and responsibilities clearly defined
 - [ ] Onboarding sessions scheduled for GitHub/Copilot newcomers
+- [ ] **GitHub Token created with required permissions**
+- [ ] **Token added to repository secrets**
 
 ### Technical
 - [ ] GitHub Organization created and configured
@@ -103,6 +226,7 @@ The project is divided into 4 main phases:
 - [ ] IDE and necessary tools installed
 - [ ] Access credentials for external services available
 - [ ] Test data and sample applications prepared
+- [ ] **GitHub CLI (`gh`) installed and authenticated**
 
 ### Documentation
 - [ ] GitHub usage guide prepared
