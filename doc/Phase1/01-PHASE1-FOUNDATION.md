@@ -12,19 +12,19 @@ Establish the foundational structure of the GitHub Organization and team workflo
 ## Quick Links to Detailed Tasks
 
 ### Project Manager Tasks
-- 📋 [Task 1: Plan GitHub Organization and Team Permissions](../phase1/tasks/Task-01-PM-Organization.md)
-- 🎫 [Task 2: Create Issue Templates and Triage Workflows](../phase1/tasks/Task-02-PM-Issue-Templates.md)
-- 🤖 [Task 3: Coordinate Copilot Activation](../phase1/tasks/Task-03-PM-Copilot.md)
+- 📋 [Task 1: Plan GitHub Organization and Team Permissions](../Phase1/tasks/Task-01-PM-Organization.md)
+- 🎫 [Task 2: Create Issue Templates and Triage Workflows](../Phase1/tasks/Task-02-PM-Issue-Templates.md)
+- 🤖 [Task 3: Coordinate Copilot Activation](../Phase1/tasks/Task-03-PM-Copilot.md)
 
 ### Developer Tasks
-- 📦 [Task 4: Create Main Repository and Connect IDE](../phase1/tasks/Task-04-DEV-Repository.md)
-- 📝 [Task 5: Write README and Contribution Guide](../phase1/tasks/Task-05-DEV-Documentation.md)
-- 🏷️ [Task 6: Set Up Issue Labels and Branch Structure](../phase1/tasks/Task-06-DEV-Labels.md)
+- 📦 [Task 4: Create Main Repository and Connect IDE](../Phase1/tasks/Task-04-DEV-Repository.md)
+- 📝 [Task 5: Write README and Contribution Guide](../Phase1/tasks/Task-05-DEV-Documentation.md)
+- 🏷️ [Task 6: Set Up Issue Labels and Branch Structure](../Phase1/tasks/Task-06-DEV-Labels.md)
 
 ### QA Tasks
-- ✅ [Task 7: Design Test Plan and Templates](../phase1/tasks/Task-07-QA-Test-Plan.md)
-- 🐛 [Task 8: Define Bug Labels and Severity Levels](../phase1/tasks/Task-08-QA-Bug-Severity.md)
-- 📊 [Task 9: Prepare Initial Test Data](../phase1/tasks/Task-09-QA-Test-Data.md)
+- ✅ [Task 7: Design Test Plan and Templates](../Phase1/tasks/Task-07-QA-Test-Plan.md)
+- 🐛 [Task 8: Define Bug Labels and Severity Levels](../Phase1/tasks/Task-08-QA-Bug-Severity.md)
+- 📊 [Task 9: Prepare Initial Test Data](../Phase1/tasks/Task-09-QA-Test-Data.md)
 
 ---
 
