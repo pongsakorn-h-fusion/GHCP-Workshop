@@ -15,6 +15,7 @@ Establish the foundational structure of the GitHub Organization and team workflo
 - 📋 [Task 1: Plan GitHub Organization and Team Permissions](../Phase1/tasks/Task-01-PM-Organization.md)
 - 🎫 [Task 2: Create Issue Templates and Triage Workflows](../Phase1/tasks/Task-02-PM-Issue-Templates.md)
 - 🤖 [Task 3: Coordinate Copilot Activation](../Phase1/tasks/Task-03-PM-Copilot.md)
+- 📊 [Task 10: Planning and Tracking Work with GitHub Issues](../Phase1/tasks/Task-10-PM-Planning-Tracking.md)
 
 ### Developer Tasks
 - 📦 [Task 4: Create Main Repository and Connect IDE](../Phase1/tasks/Task-04-DEV-Repository.md)
@@ -531,6 +532,68 @@ test-data/
 
 ---
 
+### 🔟 Planning and Tracking Work with GitHub Issues
+**Responsible**: PM
+**Feature**: GitHub Issues / GitHub Projects
+
+📖 **[View Detailed Task Guide →](../Phase1/tasks/Task-10-PM-Planning-Tracking.md)**
+
+#### Details
+- Set up GitHub Projects for sprint and work tracking
+- Create and manage milestones for releases and sprints
+- Establish issue relationships and dependencies
+- Configure project automation and workflows
+- Train team on planning and tracking best practices
+
+#### Preparation
+- [ ] Review team's current planning process
+- [ ] Understand sprint cycle and timeline
+- [ ] Define project management workflow
+- [ ] Identify key metrics to track
+- [ ] Prepare training materials for team
+
+#### Key Components
+
+**1. GitHub Projects Setup**
+- Create project board with multiple views
+- Configure custom fields (Priority, Sprint, Team, Story Points)
+- Set up Board, Table, Roadmap, and Workload views
+- Configure access permissions
+
+**2. Milestones Management**
+- Sprint milestones for iteration planning
+- Release milestones for version tracking
+- Phase milestones for long-term planning
+- Success criteria and due dates
+
+**3. Issue Relationships**
+- Task lists within epic issues
+- Dependencies linking (depends on, blocks)
+- Related issue references
+- Auto-closing with PR keywords
+
+**4. Automation Workflows**
+- Auto-add issues to project
+- Auto-update status on PR merge
+- Priority escalation notifications
+- Blocked item alerts
+
+**5. Sprint Planning Process**
+- Sprint planning meeting structure
+- Backlog grooming practices
+- Capacity planning methods
+- Daily standup workflows
+
+#### Deliverables
+- GitHub Project board fully configured
+- Milestones for current quarter created
+- Sprint planning workflow documentation
+- Progress tracking and reporting templates
+- Team training completed
+- Quick reference guides
+
+---
+
 ## Hands-On Workshop (10-14 Nov 2025)
 
 ### Purpose
@@ -548,7 +611,7 @@ Enable the team to practice setting up Organization, Repository, and using Copil
 
 #### Day 3: Issues & Project Management
 - Morning: Issue templates and workflows
-- Afternoon: Project boards and automation
+- Afternoon: Project boards, milestones, and automation
 
 #### Day 4: Documentation & Best Practices
 - Morning: Writing documentation with Copilot
@@ -581,7 +644,14 @@ Enable the team to practice setting up Organization, Repository, and using Copil
 - Assign and label issues
 - Link PRs to issues
 
-#### Activity 5: Collaboration
+#### Activity 5: Project Planning & Tracking
+- Set up GitHub Project board
+- Create milestones and add issues
+- Configure custom fields
+- Practice sprint planning workflow
+- Track progress with different views
+
+#### Activity 6: Collaboration
 - Create feature branch
 - Make changes
 - Create pull request
@@ -603,6 +673,9 @@ Enable the team to practice setting up Organization, Repository, and using Copil
 - [ ] Team and member list ready
 - [ ] Workshop agenda prepared
 - [ ] Training materials ready
+- [ ] Project board templates prepared
+- [ ] Sprint planning workflow documented
+- [ ] Milestone structure defined
 
 ### For Developer
 - [ ] Sample repository prepared
@@ -626,6 +699,9 @@ Evaluation criteria for Phase 1 success:
 - [ ] All team members can access repositories
 - [ ] Copilot activated and working for everyone
 - [ ] Issue templates and labels ready to use
+- [ ] GitHub Projects board configured and operational
+- [ ] Milestones created for current sprint cycle
+- [ ] Sprint planning workflow documented and understood
 - [ ] README and CONTRIBUTING guide completed
 - [ ] Branch structure defined and understood by all
 - [ ] Test plans and test data ready
@@ -648,6 +724,15 @@ Evaluation criteria for Phase 1 success:
 ### Issue: Merge conflicts
 **Solution**: Pull latest changes before push and use merge tools in IDE
 
+### Issue: Cannot add issues to Project board
+**Solution**: Verify you have write access to the project and that the issue is in a repository linked to the organization
+
+### Issue: Custom fields not showing in Project
+**Solution**: Ensure you're viewing the correct project and that custom fields are configured in project settings
+
+### Issue: Automation workflows not triggering
+**Solution**: Check workflow configuration in project settings and verify GitHub Actions permissions
+
 ---
 
 ## Resources
@@ -656,11 +741,16 @@ Evaluation criteria for Phase 1 success:
 - [GitHub Organizations Documentation](https://docs.github.com/en/organizations)
 - [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
 - [GitHub Issues Documentation](https://docs.github.com/en/issues)
+- [Planning and Tracking with Projects](https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/planning-and-tracking-work-for-your-team-or-project)
+- [About GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects)
+- [About Milestones](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones)
 
 ### Video Tutorials
 - GitHub Organization Setup
 - GitHub Copilot Getting Started
 - Effective Issue Management
+- GitHub Projects for Agile Planning
+- Sprint Planning with GitHub
 
 ### Templates & Examples
 - [GitHub Templates Repository](https://github.com/github)
