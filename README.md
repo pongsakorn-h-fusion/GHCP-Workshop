@@ -25,7 +25,9 @@ The project is divided into 4 main phases:
 - Plan GitHub Organization and team permissions
 - Create Issue Templates and Workflows
 - Enable GitHub Copilot
+- Set up GitHub Projects for planning and tracking work
 - Create Repository and documentation
+- Establish Sprint planning and milestone management
 - Design Test Plans
 
 ### 🚀 [Phase 2: CI/CD, Environments & Secrets](/doc/Phase2/02-PHASE2-CICD.md)
@@ -72,7 +74,10 @@ The project is divided into 4 main phases:
 ### Project Manager (PM)
 - Plan and define policies
 - Coordinate with teams and stakeholders
+- Set up and manage GitHub Projects for work tracking
+- Facilitate sprint planning and milestone management
 - Track progress and resolve issues
+- Monitor team velocity and adjust planning accordingly
 - Review and approve significant changes
 
 ### Developer (Dev)
@@ -102,6 +107,7 @@ For workflows and automation in this project to function properly, you need a Gi
 | **Contents** | Read & Write | Checkout code, create commits, push changes | All Phases |
 | **Issues** | Read & Write | Create/update issues from test failures, security alerts | Phase 1-4 |
 | **Pull Requests** | Read & Write | Comment on PRs, create PRs, approve/request changes | Phase 2-4 |
+| **Projects** | Read & Write | Manage project boards, add/update items, configure fields | Phase 1: Planning & Tracking |
 | **Checks** | Read & Write | Create and update status checks, test results | Phase 2: Quality Gates |
 | **Deployments** | Read & Write | Manage deployments to environments | Phase 2: Environment Deployment |
 | **Metadata** | Read | Read repository metadata (required) | All Phases |
@@ -117,6 +123,7 @@ For workflows and automation in this project to function properly, you need a Gi
 |------------|--------------|---------|---------|
 | **Members** | Read | Read organization member information | Phase 1: Team Setup |
 | **Administration** | Read | Read organization settings | Phase 1: Organization Setup |
+| **Projects** | Read & Write | Manage organization-level project boards | Phase 1: Planning & Tracking |
 
 #### Additional Permissions
 | Permission | Access Level | Purpose | Used In |
@@ -204,6 +211,12 @@ steps:
           repo: context.repo.repo,
           title: 'Automated issue'
         });
+
+  - name: Add issue to project
+    uses: actions/add-to-project@v0.5.0
+    with:
+      project-url: https://github.com/orgs/YOUR-ORG/projects/1
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 **Note**: GitHub Actions provides an auto-generated `GITHUB_TOKEN` with limited permissions. If you need additional permissions, you must use a Personal Access Token or GitHub App.
@@ -231,8 +244,10 @@ steps:
 ### Documentation
 - [ ] GitHub usage guide prepared
 - [ ] Copilot usage guide prepared
+- [ ] GitHub Projects and sprint planning guide prepared
 - [ ] Coding standards and best practices documented
 - [ ] Documentation templates prepared
+- [ ] Issue and milestone management guidelines documented
 
 ### Communication
 - [ ] Communication channels configured (Slack, Teams, etc.)
@@ -263,6 +278,8 @@ Nov 2025                                  Dec 2025
 - [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [GitHub Security Documentation](https://docs.github.com/en/code-security)
+- [GitHub Issues & Projects Documentation](https://docs.github.com/en/issues)
+- [Planning and Tracking with Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
 
 ### Learning Resources
 - [GitHub Skills](https://skills.github.com/)
@@ -280,10 +297,12 @@ Nov 2025                                  Dec 2025
 
 1. **Start Early**: Begin preparations at least 1-2 weeks before project kickoff
 2. **Practice in Advance**: Have team members try GitHub and Copilot before workshops
-3. **Communicate Regularly**: Sync progress on a regular basis
-4. **Collect Feedback**: Gather feedback after each workshop for improvements
-5. **Have a Plan B**: Prepare backup plans for technical issues
-6. **Iterate and Improve**: Use outcomes from each phase to enhance the next
+3. **Track Work Systematically**: Use GitHub Projects and Milestones to maintain visibility of progress
+4. **Communicate Regularly**: Sync progress on a regular basis through daily standups and sprint reviews
+5. **Collect Feedback**: Gather feedback after each workshop for improvements
+6. **Have a Plan B**: Prepare backup plans for technical issues
+7. **Iterate and Improve**: Use outcomes from each phase to enhance the next
+8. **Use Issue Templates Consistently**: Ensure all work items are properly documented from the start
 
 ---
 
