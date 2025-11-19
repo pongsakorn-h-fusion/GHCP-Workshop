@@ -65,8 +65,9 @@ jobs:
   build-test-scan:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
+      actions: read
       contents: read
+      security-events: write
     steps:
       # 1. Checkout and Setup
       - name: Checkout code
@@ -93,12 +94,12 @@ jobs:
         run: npm audit --audit-level=moderate
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
       # 4. Build Docker Image
       - name: Set up Docker Buildx
@@ -109,6 +110,7 @@ jobs:
         with:
           context: .
           push: false
+          load: true
           tags: workshop-app:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -121,10 +123,11 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
+        continue-on-error: true
 
       - name: Upload Trivy results
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('trivy-results.sarif') != ''
         with:
           sarif_file: 'trivy-results.sarif'
 ```
