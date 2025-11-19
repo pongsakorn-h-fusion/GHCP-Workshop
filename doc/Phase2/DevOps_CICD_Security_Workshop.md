@@ -164,11 +164,41 @@ Discussion Points:
 
 ## Module 2: Environments, Secrets & Branch Protection (40 minutes)
 
+### Prerequisites
+
+Before starting this module, ensure you have:
+- Azure account with active subscription
+- Azure resources created (see [Azure Setup Guide](Azure-Setup-Guide.md))
+- Service principal credentials ready
+- GitHub repository with sample application
+
+**📚 If you haven't set up Azure resources yet, follow the [Azure Setup Guide](Azure-Setup-Guide.md) first.**
+
 ### 2.1 Environments & Secrets (20 minutes)
 
 **Hands-On: Multi-Environment Deployment**
 
 ```markdown
+Step 0: Setup Azure Resources (Before Workshop)
+
+Option A - Azure App Service:
+1. Login to Azure Portal (portal.azure.com)
+2. Create Resource Group: workshop-rg
+3. Create two App Services:
+   - Staging: workshop-app-staging (Linux, Node 18)
+   - Production: workshop-app-prod (Linux, Node 18)
+4. Get deployment credentials using Azure CLI:
+   az ad sp create-for-rbac --name "github-actions-workshop" \
+     --role contributor \
+     --scopes /subscriptions/{sub-id}/resourceGroups/workshop-rg \
+     --sdk-auth
+
+Option B - Azure Static Web Apps:
+1. Login to Azure Portal
+2. Create Static Web App: workshop-swa
+3. Select GitHub as source (or Manual for workshop)
+4. Copy the deployment token from Portal > Settings > API key
+
 Step 1: Create Environments (5 minutes)
 1. Go to Settings > Environments
 2. Create "staging" environment
@@ -181,17 +211,63 @@ Step 1: Create Environments (5 minutes)
 
 **Step 2: Add Secrets (5 minutes)**
 
+**For Azure App Service Deployment (as defined in deploy.yml):**
+
+The deploy.yml workflow requires the following secrets:
+
+**Staging Environment Secrets** (Settings > Environments > staging > Add secret):
 ```markdown
-Repository Secrets (Settings > Secrets and variables > Actions):
-- SLACK_WEBHOOK_URL (for notifications)
+Secret Name: AZURE_APP_NAME_STAGING
+Value: Your App Service name for staging (e.g., workshop-app-staging)
 
-Staging Environment Secrets:
-- DATABASE_URL: postgresql://staging-db:5432/app
-- API_KEY: staging_key_xxx
+Secret Name: AZURE_WEBAPP_PUBLISH_PROFILE_STAGING
+Value: <publish-profile-xml-from-azure>
+```
 
-Production Environment Secrets:
-- DATABASE_URL: postgresql://prod-db:5432/app
-- API_KEY: prod_key_xxx
+**Production Environment Secrets** (Settings > Environments > production > Add secret):
+```markdown
+Secret Name: AZURE_APP_NAME_PROD
+Value: Your App Service name for production (e.g., workshop-app-prod)
+
+Secret Name: AZURE_WEBAPP_PUBLISH_PROFILE_PROD
+Value: <publish-profile-xml-from-azure>
+```
+
+**How to Get Publish Profile from Azure Portal:**
+
+```bash
+# Option 1: Using Azure Portal
+1. Go to Azure Portal > App Service
+2. Select your App Service (staging or prod)
+3. Click "Get publish profile" in the top menu
+4. Download the .publishsettings file
+5. Open the file and copy all contents (entire XML)
+6. Paste into the corresponding GitHub Environment Secret
+
+# Option 2: Using Azure CLI
+# For Staging
+az webapp deployment list-publishing-profiles \
+  --name workshop-app-staging \
+  --resource-group workshop-rg \
+  --xml
+
+# For Production
+az webapp deployment list-publishing-profiles \
+  --name workshop-app-prod \
+  --resource-group workshop-rg \
+  --xml
+```
+
+**Summary of Required Secrets:**
+- ✅ 2 secrets in staging environment
+- ✅ 2 secrets in production environment
+- ✅ Total of 4 secrets as defined in deploy.yml
+
+**For Azure Static Web Apps (Alternative Option):**
+
+```markdown
+Repository Secrets:
+- AZURE_STATIC_WEB_APPS_API_TOKEN (from Azure Portal)
 ```
 
 **Step 3: Create Deployment Workflow (10 minutes)**
@@ -199,7 +275,126 @@ Production Environment Secrets:
 Create `.github/workflows/deploy.yml`:
 
 ```yaml
-name: Deploy Application
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: |
+            .
+            !node_modules
+            !.git
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    environment: staging
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Install dependencies
+        run: npm ci --production
+
+      - name: Deploy to Azure App Service (Staging)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_APP_NAME_STAGING }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
+          package: .
+
+      - name: Smoke test
+        run: |
+          echo "Running smoke tests..."
+          sleep 30
+          curl -f https://${{ secrets.AZURE_APP_NAME_STAGING }}.azurewebsites.net/health || echo "Health check endpoint not available yet"
+
+      - name: Notify deployment
+        if: success()
+        run: |
+          echo "✅ Deployed to Staging"
+          echo "URL: https://${{ secrets.AZURE_APP_NAME_STAGING }}.azurewebsites.net"
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment: production
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Install dependencies
+        run: npm ci --production
+
+      - name: Deploy to Azure App Service (Production)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_APP_NAME_PROD }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
+          package: .
+
+      - name: Health check
+        run: |
+          echo "Running health checks..."
+          sleep 30
+          curl -f https://${{ secrets.AZURE_APP_NAME_PROD }}.azurewebsites.net/health || echo "Health check endpoint not available yet"
+
+      - name: Verify deployment
+        run: |
+          echo "Verifying deployment..."
+          curl -f https://${{ secrets.AZURE_APP_NAME_PROD }}.azurewebsites.net/api/info
+
+      - name: Notify deployment
+        if: success()
+        run: |
+          echo "🚀 Deployed to Production"
+          echo "URL: https://${{ secrets.AZURE_APP_NAME_PROD }}.azurewebsites.net"
+
+```
+
+**Alternative: Deploy to Azure Static Web Apps**
+
+For static web applications (React, Vue, Angular):
+
+```yaml
+name: Deploy to Azure Static Web Apps
 
 on:
   push:
@@ -207,60 +402,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-staging:
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Deploy to Staging
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
-        run: |
-          echo "Deploying to Staging..."
-          echo "Database: ${DATABASE_URL%%:*}://****"
-          # Add your deployment script here
-
-      - name: Smoke test
-        run: |
-          echo "Running smoke tests..."
-          # curl -f https://staging.example.com/health
-
-      - name: Notify Slack
-        if: success()
-        uses: slackapi/slack-github-action@v1
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "✅ Deployed to Staging - ${{ github.sha }}"
-            }
-
-  deploy-production:
+  build_and_deploy:
     runs-on: ubuntu-latest
     environment: production
-    needs: deploy-staging
     steps:
       - uses: actions/checkout@v3
 
-      - name: Deploy to Production
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
-        run: |
-          echo "Deploying to Production..."
-          # Add your deployment script here
-
-      - name: Notify Slack
-        if: success()
-        uses: slackapi/slack-github-action@v1
+      - name: Build And Deploy
+        uses: Azure/static-web-apps-deploy@v1
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "🚀 Deployed to Production - ${{ github.sha }}"
-            }
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/" # App source code path
+          api_location: "api" # Api source code path - optional
+          output_location: "build" # Built app content directory
 ```
 
 **Key Concepts**:
@@ -595,23 +751,28 @@ A: Create hotfix branch, fast-track review, deploy, backport to main
 workshop-project/
 ├── .github/
 │   ├── workflows/
-│   │   ├── ci-security.yml       # Main CI pipeline
-│   │   ├── deploy.yml            # Deployment workflow
+│   │   ├── ci.yml                # Main CI pipeline
+│   │   ├── deploy.yml            # Deployment workflow (Azure)
 │   │   └── monitoring.yml        # Monitoring and alerts
 │   ├── CODEOWNERS                # Code ownership
 │   └── dependabot.yml            # Dependency management
-├── src/
-│   ├── app.js                    # Application code
-│   ├── routes/
-│   └── middleware/
 ├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── security/
-├── Dockerfile
-├── package.json
-└── README.md
+│   └── unit/
+│       └── server.test.js        # Unit tests
+├── server.js                     # Main application
+├── package.json                  # Dependencies and scripts
+├── jest.config.js                # Test configuration
+├── .eslintrc.js                  # Linting rules
+├── .prettierrc                   # Code formatting
+├── .env.example                  # Environment variables template
+└── README.md                     # Documentation
 ```
+
+**📦 Sample Application Available:**
+- Complete working Node.js app in [sample-app/](https://github.com/pongsakorn-h-fusion/sample-project.git) directory
+- Includes all necessary configuration files
+- Pre-configured GitHub Actions workflows
+- Ready to deploy to Azure
 
 ### Quick Reference - Workflow Templates
 
