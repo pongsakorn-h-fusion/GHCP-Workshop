@@ -97,42 +97,79 @@ jobs:
 
 ### CI/CD Pipeline Diagram:
 ```mermaid
-graph LR
-    A[Code Push/PR] --> B{CI Pipeline}
-    B --> C[Checkout Code]
-    C --> D[Build & Test]
-    D --> E[Linting]
-    E --> F[Security Scan]
-    F --> G[OWASP Check]
-    G --> H{Tests Pass?}
-    H -->|Yes| I[Deploy to Staging]
-    H -->|No| J[Notify Team]
-    I --> K{Manual Approval}
-    K -->|Approved| L[Deploy to Production]
-    K -->|Rejected| M[Stop]
-    L --> N[Health Check]
-    N --> O{Healthy?}
-    O -->|Yes| P[Success]
-    O -->|No| Q[Rollback]
+graph TD
+    A[🚀 Code Push/Pull Request] --> B[📥 Checkout Code]
+    B --> C[📦 Install Dependencies]
+    C --> D[🔨 Build Application]
 
-    style A fill:#e1f5ff
-    style H fill:#fff3cd
-    style K fill:#fff3cd
-    style O fill:#fff3cd
-    style P fill:#d4edda
-    style J fill:#f8d7da
-    style Q fill:#f8d7da
+    D --> E[🧪 Run Unit Tests]
+    E --> F[✨ Run Linter]
+    F --> G[🔍 Code Quality Check]
+
+    G --> H[🛡️ Security Scan - CodeQL]
+    H --> I[🔐 Dependency Vulnerability Check]
+    I --> J[⚠️ OWASP Security Analysis]
+
+    J --> K{✅ All Tests Pass?}
+    K -->|❌ No| L[🚨 Notify Development Team]
+    L --> M[📝 Create Issue/Alert]
+    M --> N[🔄 Fix Issues]
+    N --> A
+
+    K -->|✅ Yes| O[📊 Generate Test Reports]
+    O --> P[📤 Upload Artifacts]
+    P --> Q[🎯 Deploy to Staging Environment]
+
+    Q --> R[🔧 Run Smoke Tests]
+    R --> S[🌡️ Health Check - Staging]
+
+    S --> T{🏥 Staging Healthy?}
+    T -->|❌ No| U[⚠️ Rollback Staging]
+    U --> L
+
+    T -->|✅ Yes| V[👥 Request Manual Approval]
+    V --> W{✋ Approved for Production?}
+
+    W -->|❌ Rejected| X[🛑 Stop Deployment]
+    X --> Y[📋 Log Rejection Reason]
+
+    W -->|✅ Approved| Z[🚀 Deploy to Production]
+    Z --> AA[🔧 Run Production Smoke Tests]
+    AA --> AB[🌡️ Health Check - Production]
+
+    AB --> AC{🏥 Production Healthy?}
+    AC -->|❌ No| AD[🔄 Auto Rollback]
+    AD --> AE[🚨 Critical Alert to Team]
+    AE --> AF[📊 Generate Incident Report]
+
+    AC -->|✅ Yes| AG[✅ Deployment Success]
+    AG --> AH[📊 Update Metrics Dashboard]
+    AH --> AI[📧 Notify Success to Team]
+    AI --> AJ[🎉 Complete]
+
+    style A fill:#e1f5ff,stroke:#0366d6,stroke-width:3px
+    style K fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style T fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style W fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AC fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AJ fill:#d4edda,stroke:#28a745,stroke-width:3px
+    style L fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style U fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style AD fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style X fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 ```
 
 **Pipeline Stages Explained:**
-1. **Source**: Developer pushes code or creates pull request
-2. **Build**: Install dependencies and compile code
-3. **Test**: Run unit tests, integration tests, and linting
-4. **Security**: CodeQL analysis, dependency scanning, vulnerability checks
-5. **Deploy to Staging**: Automatic deployment to staging environment
-6. **Manual Approval**: Required review before production
-7. **Deploy to Production**: Deploy to production environment
-8. **Monitor**: Health checks and smoke tests
+1. **Source** (A-C): Developer pushes code, checkout, and install dependencies
+2. **Build & Test** (D-G): Compile code, run tests, linting, and quality checks
+3. **Security Analysis** (H-J): CodeQL scanning, dependency checks, OWASP analysis
+4. **Quality Gate** (K): Decision point - all tests must pass
+5. **Staging Deployment** (O-S): Deploy to staging, smoke tests, health checks
+6. **Staging Validation** (T): Verify staging environment health
+7. **Manual Approval** (V-W): Required approval gate before production
+8. **Production Deployment** (Z-AB): Deploy to production with health monitoring
+9. **Production Validation** (AC): Critical health check with auto-rollback capability
+10. **Success & Monitoring** (AG-AJ): Metrics, notifications, and completion
 
 ### Example Workflow (Python - Build & Test):
 ```yaml
@@ -372,68 +409,137 @@ updates:
 ### Security Flow Diagram:
 ```mermaid
 graph TD
-    A[Code Repository] --> B{Security Gates}
+    A[👨‍💻 Developer Commits Code] --> B[🔍 Pre-commit Hooks]
+    B --> C{🛡️ Local Security Checks}
+    C -->|❌ Failed| D[🚫 Block Commit]
+    D --> E[📋 Show Security Issues]
+    E --> F[🔧 Fix Security Issues]
+    F --> A
 
-    B --> C[Branch Protection]
-    B --> D[Secret Scanning]
-    B --> E[Dependency Scanning]
-    B --> F[Code Scanning]
+    C -->|✅ Passed| G[📤 Push to Remote]
+    G --> H[🔐 Secret Scanning - Push Protection]
 
-    C --> C1[Require PR Reviews]
-    C --> C2[Status Checks]
-    C --> C3[No Force Push]
+    H --> I{🔍 Secrets Detected?}
+    I -->|✅ Found| J[🛑 Block Push]
+    J --> K[🚨 Alert Developer]
+    K --> L[🗑️ Remove Secrets]
+    L --> A
 
-    D --> D1[Pre-commit Hooks]
-    D --> D2[Push Protection]
-    D --> D3[Alert on Secrets]
+    I -->|❌ None| M[✅ Push Accepted]
+    M --> N[🔔 Create Pull Request]
 
-    E --> E1[Dependabot Alerts]
-    E --> E2[Vulnerability Database]
-    E --> E3[Auto PR for Updates]
+    N --> O[🛡️ Branch Protection Rules]
+    O --> P[📋 PR Review Required]
+    O --> Q[✅ Status Checks Required]
+    O --> R[🚫 Force Push Blocked]
 
-    F --> F1[CodeQL Analysis]
-    F --> F2[SAST Tools]
-    F --> F3[Security Tests]
+    P --> S[👥 Code Review Process]
+    Q --> T[🤖 Automated Checks Start]
 
-    C1 --> G{All Checks Pass?}
-    C2 --> G
-    C3 --> G
-    D1 --> G
-    D2 --> G
-    D3 --> G
-    E1 --> G
-    E2 --> G
-    E3 --> G
-    F1 --> G
-    F2 --> G
-    F3 --> G
+    T --> U[🔍 CodeQL Analysis - SAST]
+    U --> V[📦 Dependency Scanning]
+    V --> W[🐛 Dependabot Vulnerability Check]
+    W --> X[⚠️ OWASP Dependency Analysis]
+    X --> Y[🔐 Secret Scanning - Full Scan]
+    Y --> Z[🧪 Security Unit Tests]
+    Z --> AA[🛡️ Container Security Scan]
+    AA --> AB[📊 Code Coverage Check]
 
-    G -->|Yes| H[Merge to Main]
-    G -->|No| I[Block Merge]
+    AB --> AC{📋 All Security Checks Pass?}
+    AC -->|❌ No| AD[🚨 Alert Security Team]
+    AD --> AE[📝 Create Security Issue]
+    AE --> AF[🔍 Security Review Required]
+    AF --> AG[🔧 Fix Vulnerabilities]
+    AG --> A
 
-    H --> J[Deploy Pipeline]
-    I --> K[Fix Issues]
-    K --> A
+    AC -->|✅ Yes| AH[✅ Security Gates Passed]
+    S --> AI{👍 Approved by Reviewers?}
+    AI -->|❌ No| AJ[📝 Request Changes]
+    AJ --> A
 
-    J --> L[Security Monitoring]
-    L --> M[Runtime Protection]
-    L --> N[Audit Logs]
-    L --> O[Incident Response]
+    AH --> AK{🎯 Ready to Merge?}
+    AI -->|✅ Yes| AK
 
-    style A fill:#e1f5ff
-    style G fill:#fff3cd
-    style H fill:#d4edda
-    style I fill:#f8d7da
-    style K fill:#fff3cd
-    style B fill:#d4edda
-    style L fill:#cfe2ff
+    AK -->|❌ No| AL[⏸️ Wait for Conditions]
+    AL --> AK
+
+    AK -->|✅ Yes| AM[🔀 Merge to Main Branch]
+    AM --> AN[🚀 Trigger Deploy Pipeline]
+
+    AN --> AO[🔄 Post-Merge Security Scan]
+    AO --> AP[📊 Update Security Baseline]
+    AP --> AQ[🎯 Deploy to Environment]
+
+    AQ --> AR[🌡️ Runtime Security Monitoring]
+    AR --> AS[📝 Audit Log Collection]
+    AS --> AT[🔍 Runtime Vulnerability Detection]
+    AT --> AU[🛡️ Web Application Firewall - WAF]
+    AU --> AV[🔐 API Security Gateway]
+
+    AV --> AW{🚨 Security Incident Detected?}
+    AW -->|✅ Yes| AX[🚨 Trigger Incident Response]
+    AX --> AY[📧 Alert Security Team]
+    AY --> AZ[📊 Generate Incident Report]
+    AZ --> BA[🔒 Isolate Affected Resources]
+    BA --> BB[🔍 Root Cause Analysis]
+    BB --> BC[🔧 Remediate & Patch]
+
+    AW -->|❌ No| BD[✅ System Secure]
+    BD --> BE[📊 Update Security Dashboard]
+    BE --> BF[📈 Generate Compliance Reports]
+    BF --> BG[🎯 Continuous Monitoring]
+
+    style A fill:#e1f5ff,stroke:#0366d6,stroke-width:3px
+    style C fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style I fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AC fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AI fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AK fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style AW fill:#fff3cd,stroke:#f9c74f,stroke-width:3px
+    style D fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style J fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style AD fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style AX fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style AM fill:#d4edda,stroke:#28a745,stroke-width:3px
+    style BD fill:#d4edda,stroke:#28a745,stroke-width:3px
+    style O fill:#d4edda,stroke:#28a745,stroke-width:2px
 ```
 
-**Security Layers:**
-1. **Prevention**: Branch protection, pre-commit hooks, push protection
-2. **Detection**: Secret scanning, CodeQL, Dependabot, SAST tools
-3. **Response**: Alerts, notifications, automated fixes
-4. **Monitoring**: Runtime security, audit logs, incident response
+**Security Layers Explained:**
+
+**1. Pre-Commit Security (A-F)**
+   - Local security checks before code leaves developer machine
+   - Block commits with security issues early
+
+**2. Push Protection (G-L)**
+   - Secret scanning to prevent credential leaks
+   - Real-time blocking of sensitive data
+
+**3. Pull Request Security Gates (M-AB)**
+   - Branch protection rules enforcement
+   - Comprehensive automated security scanning:
+     - CodeQL SAST analysis
+     - Dependency vulnerability scanning
+     - Dependabot security alerts
+     - OWASP dependency checks
+     - Container security scanning
+     - Code coverage validation
+
+**4. Review & Approval Process (S, AI-AK)**
+   - Mandatory code review by team members
+   - All security checks must pass before merge
+
+**5. Post-Merge Security (AM-AQ)**
+   - Additional security validation after merge
+   - Security baseline updates
+   - Secure deployment process
+
+**6. Runtime Security Monitoring (AR-BG)**
+   - Continuous security monitoring in production
+   - Audit logging and compliance tracking
+   - WAF and API gateway protection
+   - Automated incident detection and response
+   - Security dashboard and reporting
 
 ---
 
