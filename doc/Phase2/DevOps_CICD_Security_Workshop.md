@@ -469,21 +469,22 @@ Create `.github/dependabot.yml`:
 ```yaml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 5
     reviewers:
-      - "your-username"
+      - 'pongsakorn-h-fusion'
     labels:
-      - "dependencies"
-      - "security"
+      - 'dependencies'
+      - 'security'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+
 ```
 
 **Step 4: Enable Secret Scanning (2 minutes)**
@@ -507,7 +508,39 @@ Settings > Code security and analysis:
 
 ### 3.1 Pipeline Monitoring (10 minutes)
 
-**Quick Setup: Monitoring Workflow**
+**Objective**: Set up automated monitoring and notifications for your CI/CD pipelines
+
+**Why Monitoring Matters**:
+- Immediate notification when pipelines fail
+- Track deployment success/failure
+- Automatically create issues for recurring problems
+- Keep team informed without manual checking
+
+**Hands-On: Create Monitoring Workflow**
+
+**Step 1: Set up Microsoft Teams Webhook (3 minutes)**
+
+```markdown
+1. In Microsoft Teams, go to your channel
+2. Click ⋯ (More options) > Connectors
+3. Search for "Incoming Webhook"
+4. Click "Configure" and give it a name (e.g., "GitHub Pipeline Monitor")
+5. Copy the webhook URL
+6. In GitHub: Settings > Secrets and variables > Actions > New repository secret
+   - Name: MS_TEAMS_WEBHOOK_URL
+   - Value: <paste-webhook-url>
+```
+
+**Alternative: Slack Integration**
+```markdown
+If using Slack instead:
+1. Create a Slack App and enable Incoming Webhooks
+2. Get webhook URL from Slack
+3. Add as SLACK_WEBHOOK_URL secret in GitHub
+4. Modify workflow to use slack-notify action instead
+```
+
+**Step 2: Create Monitoring Workflow (5 minutes)**
 
 Create `.github/workflows/monitoring.yml`:
 
@@ -516,44 +549,124 @@ name: Pipeline Monitor
 
 on:
   workflow_run:
-    workflows: ["CI with Security"]
+    workflows: ['CI Pipeline', 'Deploy to Azure']
     types: [completed]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check status and notify
-        uses: slackapi/slack-github-action@v1
+      - name: Notify Microsoft Teams on Failure
         if: github.event.workflow_run.conclusion == 'failure'
+        uses: aliencube/microsoft-teams-actions@v0.8.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "🚨 CI Pipeline Failed!",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Pipeline:* ${{ github.event.workflow_run.name }}\n*Branch:* ${{ github.ref_name }}\n*Status:* ❌ Failed"
+          webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          title: '🚨 Pipeline Failed'
+          summary: '${{ github.event.workflow_run.name }} failed on ${{ github.event.workflow_run.head_branch }}'
+          theme_color: 'FF0000'
+          sections: |
+            [
+              {
+                "activityTitle": "Pipeline Failure Details",
+                "activitySubtitle": "${{ github.repository }}",
+                "facts": [
+                  {
+                    "name": "Pipeline:",
+                    "value": "${{ github.event.workflow_run.name }}"
+                  },
+                  {
+                    "name": "Branch:",
+                    "value": "${{ github.event.workflow_run.head_branch }}"
+                  },
+                  {
+                    "name": "Commit:",
+                    "value": "${{ github.event.workflow_run.head_sha }}"
+                  },
+                  {
+                    "name": "Author:",
+                    "value": "${{ github.event.workflow_run.head_commit.author.name }}"
+                  },
+                  {
+                    "name": "Status:",
+                    "value": "❌ Failed"
                   }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Logs"
-                      },
-                      "url": "${{ github.event.workflow_run.html_url }}"
-                    }
-                  ]
-                }
-              ]
-            }
+                ]
+              }
+            ]
+          actions: |
+            [
+              {
+                "@type": "OpenUri",
+                "name": "View Workflow Run",
+                "targets": [
+                  {
+                    "os": "default",
+                    "uri": "${{ github.event.workflow_run.html_url }}"
+                  }
+                ]
+              },
+              {
+                "@type": "OpenUri",
+                "name": "View Repository",
+                "targets": [
+                  {
+                    "os": "default",
+                    "uri": "${{ github.event.workflow_run.repository.html_url }}"
+                  }
+                ]
+              }
+            ]
+
+      - name: Notify Microsoft Teams on Success
+        if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.name == 'Deploy to Azure'
+        uses: aliencube/microsoft-teams-actions@v0.8.0
+        with:
+          webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          title: '✅ Deployment Successful'
+          summary: '${{ github.event.workflow_run.name }} completed successfully on ${{ github.event.workflow_run.head_branch }}'
+          theme_color: '00FF00'
+          sections: |
+            [
+              {
+                "activityTitle": "Deployment Success",
+                "activitySubtitle": "${{ github.repository }}",
+                "facts": [
+                  {
+                    "name": "Pipeline:",
+                    "value": "${{ github.event.workflow_run.name }}"
+                  },
+                  {
+                    "name": "Branch:",
+                    "value": "${{ github.event.workflow_run.head_branch }}"
+                  },
+                  {
+                    "name": "Commit:",
+                    "value": "${{ github.event.workflow_run.head_sha }}"
+                  },
+                  {
+                    "name": "Author:",
+                    "value": "${{ github.event.workflow_run.head_commit.author.name }}"
+                  },
+                  {
+                    "name": "Status:",
+                    "value": "✅ Success"
+                  }
+                ]
+              }
+            ]
+          actions: |
+            [
+              {
+                "@type": "OpenUri",
+                "name": "View Workflow Run",
+                "targets": [
+                  {
+                    "os": "default",
+                    "uri": "${{ github.event.workflow_run.html_url }}"
+                  }
+                ]
+              }
+            ]
 
       - name: Create issue on repeated failures
         if: github.event.workflow_run.conclusion == 'failure'
@@ -578,13 +691,69 @@ jobs:
                 labels: ['bug', 'ci-failure', 'high-priority']
               });
             }
+
 ```
 
-**Key Monitoring Points**:
-- Pipeline success/failure notifications
-- Auto-create issues for repeated failures
-- Track deployment frequency
-- Monitor security scan results
+**Step 3: Test the Monitoring (2 minutes)**
+
+```markdown
+1. Push the monitoring.yml workflow to GitHub
+2. Trigger a workflow failure (e.g., break a test)
+3. Check Microsoft Teams for failure notification
+4. Fix the test and verify success notification (for deployments)
+5. Check if issue was created after 3 consecutive failures
+```
+
+**How the Monitoring Works**:
+
+1. **Trigger**: `workflow_run` event activates when specified workflows complete
+   - Monitors: 'CI Pipeline' and 'Deploy to Azure' workflows
+   - Triggers on: completion (success or failure)
+
+2. **Failure Notifications**:
+   - Sends Microsoft Teams notification with red theme
+   - Includes: workflow name, branch, commit SHA, author
+   - Provides links to workflow run and repository
+   - Triggered only when `conclusion == 'failure'`
+
+3. **Success Notifications**:
+   - Only for successful deployments ('Deploy to Azure')
+   - Sends green-themed Teams notification
+   - Helps track deployment frequency
+   - Confirms production releases
+
+4. **Automated Issue Creation**:
+   - Uses `actions/github-script` to query recent workflow runs
+   - Checks last 3 runs for the same workflow
+   - Creates GitHub issue if 3+ consecutive failures detected
+   - Labels: 'bug', 'ci-failure', 'high-priority'
+
+**Important Notes**:
+- Workflow names in `workflows:` array must match exactly
+  - 'CI Pipeline' should match your `name:` in ci-security.yml
+  - 'Deploy to Azure' should match your `name:` in deploy.yml
+- Requires `MS_TEAMS_WEBHOOK_URL` secret configured
+- Issue creation requires default `GITHUB_TOKEN` permissions
+
+**Customization Options**:
+
+```yaml
+# Change notification threshold
+if (failures >= 2) {  # Alert after 2 failures instead of 3
+
+# Add more monitored workflows
+workflows: ['CI Pipeline', 'Deploy to Azure', 'Security Scan']
+
+# Customize issue body
+body: `The pipeline has failed ${failures} times.\n\nLast failed run: ${context.payload.workflow_run.html_url}`
+```
+
+**Key Monitoring Benefits**:
+- Real-time failure alerts to team channel
+- Automatic issue tracking for persistent problems
+- Deployment success visibility
+- Reduced mean-time-to-detection (MTTD)
+- No manual pipeline checking needed
 
 ---
 
@@ -623,9 +792,11 @@ Implementation Steps:
    - Check Dependabot alerts
 
 4. Verify Monitoring (5 min)
-   - Trigger pipeline failure
-   - Check Slack notification
-   - Verify issue creation
+   - Trigger pipeline failure (intentionally break a test)
+   - Check Microsoft Teams for failure notification
+   - Trigger 2 more failures to test issue creation
+   - Verify GitHub issue was automatically created
+   - Fix the test and check success notification
 
 Success Criteria:
 ✅ All CI checks pass
@@ -661,10 +832,10 @@ Success Criteria:
 - Secret scanning and prevention
 
 **3. Monitoring & Alerts** ✅
-- Pipeline failure notifications
-- Automated issue creation
-- Slack integrations
-- Deployment tracking
+- Pipeline failure notifications via Microsoft Teams
+- Automated issue creation for repeated failures
+- Deployment success tracking
+- Integration with collaboration tools (Teams/Slack)
 
 ### Best Practices Checklist
 
@@ -708,8 +879,9 @@ Success Criteria:
 **Immediate Actions**:
 1. Apply this setup to your real projects
 2. Enable GitHub Advanced Security (if available)
-3. Set up proper Slack/Teams integration
-4. Document your CI/CD process
+3. Configure Microsoft Teams/Slack webhooks for all repositories
+4. Document your CI/CD process and runbooks
+5. Set up monitoring dashboards for pipeline metrics
 
 **Continue Learning**:
 - **Advanced CI/CD**: Blue-green deployments, canary releases
@@ -881,4 +1053,4 @@ You have completed the **DevOps CI/CD & Security Workshop** and can now:
 ---
 
 *Workshop Version: 2.0 (2-Hour Format)*
-*Last Updated: 2024*
+*Last Updated: 2025*
