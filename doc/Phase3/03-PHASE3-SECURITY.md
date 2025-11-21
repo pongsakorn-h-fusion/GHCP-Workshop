@@ -10,6 +10,29 @@
 
 Enhance codebase security, define security policies, configure branch protection rules, and fix discovered vulnerabilities
 
+---
+
+## Quick Links to Detailed Guides
+
+### Role-Based Workshop Guides
+- [Project Manager (PM) Guide](./Role/03-PHASE3-PM.md) - Security policies, branch protection, vulnerability management
+- [Developer Guide](./Role/03-PHASE3-DEV.md) - Dependabot, secret scanning, Codespaces setup
+- [QA Guide](./Role/03-PHASE3-QA.md) - Security testing, branch protection validation, alerting tests
+
+### Detailed Task Guides
+- [Task 1: Branch Protection Policies](./tasks/Task-01-PM-Branch-Protection.md) (PM)
+- [Task 2: Dependabot & Secret Scanning](./tasks/Task-02-DEV-Dependabot-SecretScanning.md) (Developer)
+- [Task 3: Security Testing](./tasks/Task-03-QA-Security-Tests.md) (QA)
+- [Task 4: GitHub Enterprise Features](./tasks/Task-04-GitHub-Enterprise-Features.md) (All Roles)
+
+### GitHub Enterprise Features Covered
+- **GitHub Codespaces** - Secure cloud development environment
+- **GitHub Advanced Security (GHAS)** - Code scanning, secret scanning, dependency review
+- **Audit Log** - Compliance and security monitoring
+- **Security Overview** - Organization-wide security dashboard
+
+---
+
 ## Tasks to be Performed
 
 ### 🛡️ Define Security and Branch Protection Policies
