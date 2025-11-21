@@ -244,11 +244,259 @@ Filter: action:copilot
 
 ---
 
+### Step 5: GitHub Copilot Spaces (Preview)
+
+#### 5.1 Overview
+
+GitHub Copilot Spaces is a new feature that combines the power of Codespaces with Copilot, creating AI-enhanced cloud development environments.
+
+**What is Copilot Spaces?**
+
+| Feature | Description |
+|---------|-------------|
+| **AI-Powered Environment** | Codespaces pre-configured with Copilot context |
+| **Project Understanding** | Copilot understands your entire codebase |
+| **Instant Setup** | One-click environment with AI assistance |
+| **Contextual Chat** | Chat with Copilot about your specific project |
+| **Task Automation** | AI helps set up and configure your environment |
+
+**Copilot Spaces vs Regular Codespaces**:
+
+| Capability | Codespaces | Copilot Spaces |
+|------------|------------|----------------|
+| Cloud dev environment | ✅ | ✅ |
+| Pre-configured tools | ✅ | ✅ |
+| Copilot code completion | Optional | ✅ Built-in |
+| Project context awareness | ❌ | ✅ |
+| AI-assisted setup | ❌ | ✅ |
+| Codebase Q&A | ❌ | ✅ |
+| Task understanding | ❌ | ✅ |
+
+#### 5.2 Creating a Copilot Space
+
+**Method 1: From Repository**
+
+```
+Repository → Code → Codespaces → New with Copilot
+```
+
+**Method 2: From GitHub.com**
+
+```
+github.com/codespaces → New Copilot Space
+```
+
+**Method 3: From Issue or PR**
+
+```
+Issue/PR → "Open in Copilot Space"
+- Copilot pre-loads context about the issue/PR
+- Suggests relevant files to edit
+- Understands the task at hand
+```
+
+#### 5.3 Copilot Space Features
+
+**Contextual Onboarding**:
+```
+When you open a Copilot Space:
+1. Copilot analyzes the repository structure
+2. Identifies key files and patterns
+3. Summarizes the project for you
+4. Suggests where to start based on your task
+```
+
+**Example Onboarding Message**:
+```markdown
+## Welcome to project-name
+
+### Project Overview
+This is a Node.js Express application with:
+- REST API endpoints in `/src/routes`
+- Database models in `/src/models`
+- Authentication middleware in `/src/middleware`
+
+### Quick Start
+Based on your linked issue #123 (Add user profile endpoint):
+- Relevant files: `src/routes/users.js`, `src/models/User.js`
+- Similar patterns: See `src/routes/products.js` for reference
+- Tests location: `tests/routes/users.test.js`
+
+### Suggested First Steps
+1. Create route handler in `src/routes/users.js`
+2. Add model methods in `src/models/User.js`
+3. Write tests in `tests/routes/users.test.js`
+```
+
+**AI-Assisted Tasks**:
+
+```bash
+# Ask Copilot to set up your environment
+@copilot Set up the development environment for this project
+
+# Ask about the codebase
+@copilot How does authentication work in this project?
+
+# Get help with specific tasks
+@copilot Help me implement the user profile endpoint from issue #123
+
+# Debug issues
+@copilot Why is this test failing?
+
+# Generate code with full context
+@copilot Create a new API endpoint for user settings following our patterns
+```
+
+#### 5.4 Copilot Space Configuration
+
+**Organization Settings**:
+
+```
+Organization → Settings → Codespaces → Copilot Spaces
+```
+
+```yaml
+Enable Copilot Spaces:
+  ☑ Enable for all repositories with Codespaces
+
+Default behavior:
+  ● Always start with Copilot context
+  ○ Ask user preference each time
+
+Context settings:
+  ☑ Include repository documentation
+  ☑ Include recent PRs and issues
+  ☑ Include team coding standards
+  ☐ Include linked external docs
+
+Resource limits:
+  Max context size: 100MB
+  Index refresh: Every 6 hours
+```
+
+**Repository-Level Configuration**:
+
+Create `.github/copilot-space.yml`:
+
+```yaml
+# Copilot Space configuration
+version: 1
+
+context:
+  # Files to prioritize for context
+  priority_paths:
+    - "src/**"
+    - "docs/architecture.md"
+    - "README.md"
+
+  # Files to exclude from context
+  exclude_paths:
+    - "node_modules/**"
+    - "dist/**"
+    - "*.min.js"
+    - ".env*"
+
+  # Additional context sources
+  include:
+    - type: documentation
+      path: "docs/**/*.md"
+    - type: examples
+      path: "examples/**"
+
+onboarding:
+  # Custom welcome message
+  message: |
+    Welcome to our API project!
+
+    ## Getting Started
+    Run `npm run dev` to start the development server.
+
+    ## Key Concepts
+    - All routes are in `src/routes/`
+    - Database models use Prisma
+    - Tests use Jest
+
+  # Suggested starting points
+  entry_points:
+    - path: "src/index.js"
+      description: "Application entry point"
+    - path: "src/routes/index.js"
+      description: "API route definitions"
+
+tasks:
+  # Pre-defined tasks Copilot can help with
+  - name: "Add new endpoint"
+    template: "Create a new REST endpoint following our patterns"
+  - name: "Write tests"
+    template: "Generate tests for the current file"
+  - name: "Debug issue"
+    template: "Help debug the current issue"
+```
+
+#### 5.5 Using Copilot Space for Code Review
+
+**PR Review in Copilot Space**:
+
+```
+Pull Request → "Review in Copilot Space"
+```
+
+**Features**:
+- Full codebase context while reviewing
+- Ask Copilot about changes
+- Run tests in isolated environment
+- Suggest improvements with context
+
+**Example Review Session**:
+```bash
+# Open PR in Copilot Space
+# Copilot provides:
+
+## PR Context
+This PR adds user authentication middleware.
+- 5 files changed
+- 150 lines added
+- Related to issue #45
+
+## Potential Concerns
+1. Missing rate limiting on login endpoint
+2. Token expiry not configurable
+3. No test for invalid token scenario
+
+## Suggested Improvements
+@copilot suggests adding rate limiting middleware
+@copilot suggests making token expiry configurable via env var
+```
+
+#### 5.6 Enterprise Best Practices
+
+```yaml
+Security:
+  - Enable context exclusions for sensitive files
+  - Review which files are indexed
+  - Audit Copilot Space usage
+  - Set appropriate resource limits
+
+Productivity:
+  - Create copilot-space.yml for key repositories
+  - Define common tasks and templates
+  - Include architecture documentation in context
+  - Set up custom onboarding messages
+
+Governance:
+  - Monitor usage and costs
+  - Set organization-wide policies
+  - Train teams on effective usage
+  - Regular review of context settings
+```
+
+---
+
 ## Part B: Enterprise Identity Management
 
-### Step 5: Configure SAML Single Sign-On (SSO)
+### Step 6: Configure SAML Single Sign-On (SSO)
 
-#### 5.1 SAML SSO Overview
+#### 6.1 SAML SSO Overview
 
 SAML SSO allows enterprise users to authenticate using their corporate identity provider.
 
@@ -1174,6 +1422,229 @@ gh alerts YOUR_ORG/REPO
 
 ---
 
+### Step 18: GitHub Copilot in the CLI
+
+#### 18.1 Overview
+
+GitHub Copilot in the CLI brings AI assistance directly to your terminal, helping you:
+- Generate shell commands from natural language
+- Explain complex commands
+- Suggest git commands
+- Debug command errors
+
+#### 18.2 Installation
+
+```bash
+# Install GitHub CLI (if not already installed)
+# macOS
+brew install gh
+
+# Windows
+winget install GitHub.cli
+
+# Linux (Debian/Ubuntu)
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update && sudo apt install gh
+
+# Install Copilot CLI extension
+gh extension install github/gh-copilot
+
+# Authenticate (if not already)
+gh auth login
+```
+
+#### 18.3 Copilot CLI Commands
+
+**Basic Commands**:
+
+```bash
+# Ask Copilot to explain a command
+gh copilot explain "git rebase -i HEAD~5"
+
+# Ask Copilot to suggest a command
+gh copilot suggest "find all files modified in the last 24 hours"
+
+# Get help with git
+gh copilot suggest "undo the last commit but keep changes"
+```
+
+**Command Explanation Examples**:
+
+```bash
+# Explain complex commands
+$ gh copilot explain "awk '{print $1}' file.txt | sort | uniq -c | sort -rn"
+
+Explanation:
+This command pipeline:
+1. `awk '{print $1}' file.txt` - Extracts the first column from file.txt
+2. `sort` - Sorts the output alphabetically
+3. `uniq -c` - Counts unique occurrences
+4. `sort -rn` - Sorts numerically in reverse order (highest first)
+
+Use case: Finding the most frequent values in the first column of a file.
+```
+
+**Command Suggestion Examples**:
+
+```bash
+# Generate shell commands
+$ gh copilot suggest "compress all log files older than 7 days"
+
+Suggestion:
+find /var/log -name "*.log" -mtime +7 -exec gzip {} \;
+
+# Generate git commands
+$ gh copilot suggest "show commits by author in the last month"
+
+Suggestion:
+git log --author="username" --since="1 month ago" --oneline
+
+# Generate docker commands
+$ gh copilot suggest "remove all stopped containers and unused images"
+
+Suggestion:
+docker container prune -f && docker image prune -a -f
+```
+
+#### 18.4 Interactive Mode
+
+```bash
+# Start interactive session
+gh copilot suggest
+
+# Then type your requests interactively:
+> list all running processes using port 3000
+> find and delete node_modules folders recursively
+> create a tar archive excluding .git directories
+```
+
+#### 18.5 Copilot CLI Use Cases
+
+| Use Case | Example Prompt |
+|----------|----------------|
+| **File Operations** | "find all PNG files larger than 1MB" |
+| **Git Operations** | "cherry-pick a commit from another branch" |
+| **Docker** | "run a postgres container with persistent volume" |
+| **Kubernetes** | "get all pods in error state across namespaces" |
+| **Network** | "check which process is listening on port 8080" |
+| **Text Processing** | "extract email addresses from a file" |
+| **System Admin** | "show disk usage sorted by size" |
+| **Security** | "find files with world-writable permissions" |
+
+#### 18.6 Advanced Usage
+
+**Combining with Scripts**:
+
+```bash
+#!/bin/bash
+# Get command suggestion and execute
+
+# Function to get Copilot suggestion
+copilot_exec() {
+    local prompt="$1"
+    echo "Getting suggestion for: $prompt"
+    gh copilot suggest "$prompt" --shell-out
+}
+
+# Examples
+copilot_exec "list largest files in current directory"
+```
+
+**Shell Aliases for Quick Access**:
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+
+# Quick explain
+alias '??'='gh copilot explain'
+
+# Quick suggest
+alias '?!'='gh copilot suggest'
+
+# Usage:
+# ?? "what does this command do: tar -xzvf file.tar.gz"
+# ?! "find duplicate files in a directory"
+```
+
+**Git-specific Shortcuts**:
+
+```bash
+# Git-focused suggestions
+alias githelp='gh copilot suggest -t git'
+
+# Usage:
+# githelp "squash last 3 commits"
+# githelp "revert a pushed commit"
+# githelp "show diff between two branches"
+```
+
+#### 18.7 Enterprise Configuration
+
+**Enable Copilot CLI for Organization**:
+
+```
+Organization → Settings → Copilot → Policies
+```
+
+```yaml
+Copilot in the CLI:
+  ☑ Enabled for all members with Copilot license
+
+Data handling:
+  ☑ Allow CLI suggestions
+  ○ Opt out of telemetry collection
+```
+
+**Best Practices for Enterprise**:
+
+```yaml
+Security:
+  - Review suggested commands before execution
+  - Avoid using with sensitive data in prompts
+  - Use in non-production environments for learning
+
+Productivity:
+  - Use for learning new tools and commands
+  - Document discovered commands for team
+  - Share useful aliases with team members
+
+Governance:
+  - Track usage through audit logs
+  - Set guidelines for CLI usage
+  - Include in developer onboarding
+```
+
+#### 18.8 Troubleshooting
+
+```bash
+# Check Copilot CLI status
+gh copilot --version
+
+# Verify authentication
+gh auth status
+
+# Re-authenticate if needed
+gh auth refresh
+
+# Update Copilot extension
+gh extension upgrade gh-copilot
+
+# Check if Copilot is enabled
+gh api user -q '.plan.name'
+```
+
+**Common Issues**:
+
+| Issue | Solution |
+|-------|----------|
+| "Copilot not available" | Check license and org settings |
+| "Authentication failed" | Run `gh auth login` again |
+| "Extension not found" | Install with `gh extension install github/gh-copilot` |
+| "Rate limited" | Wait and try again, or check usage limits |
+
+---
+
 ## Part G: GitHub Spark (Preview)
 
 ### Overview
@@ -1692,20 +2163,24 @@ Access Control:
 
 ✅ **Features Configured**:
 1. GitHub Copilot Enterprise with Knowledge Bases
-2. SAML SSO and Team Synchronization
-3. Enterprise Managed Users (if applicable)
-4. Self-hosted runners and runner groups
-5. Required workflows
-6. IP allow lists
-7. Organization rulesets
-8. Webhooks and API integration
-9. Mobile and CLI access
-10. GitHub Spark for micro-apps
-11. Native dashboards (Security, Actions, Copilot)
-12. Custom dashboard with GitHub API
+2. GitHub Copilot Spaces for AI-enhanced development
+3. SAML SSO and Team Synchronization
+4. Enterprise Managed Users (if applicable)
+5. Self-hosted runners and runner groups
+6. Required workflows
+7. IP allow lists
+8. Organization rulesets
+9. Webhooks and API integration
+10. Mobile and CLI access
+11. GitHub Copilot in the CLI
+12. GitHub Spark for micro-apps
+13. Native dashboards (Security, Actions, Copilot)
+14. Custom dashboard with GitHub API
 
 📋 **Documentation Created**:
 - Copilot usage guidelines
+- Copilot Spaces configuration (copilot-space.yml)
+- Copilot CLI aliases and shortcuts
 - SSO setup documentation
 - Runner management guide
 - API integration examples
@@ -1719,6 +2194,8 @@ Access Control:
 
 - [ ] Copilot Enterprise features accessible to licensed users
 - [ ] Knowledge bases indexed and searchable
+- [ ] Copilot Spaces enabled and configured
+- [ ] copilot-space.yml created for key repositories
 - [ ] SAML SSO working for all users
 - [ ] Team sync active and updating
 - [ ] Self-hosted runners operational
@@ -1728,6 +2205,8 @@ Access Control:
 - [ ] Webhooks receiving events
 - [ ] Mobile access configured
 - [ ] CLI authentication working
+- [ ] Copilot CLI extension installed and working
+- [ ] Copilot CLI aliases configured
 - [ ] GitHub Spark enabled and configured
 - [ ] Organization dashboards accessible
 - [ ] Security dashboard showing correct metrics
