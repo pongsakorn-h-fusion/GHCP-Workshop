@@ -20,16 +20,47 @@ Enhance codebase security, define security policies, configure branch protection
 - [QA Guide](./Role/03-PHASE3-QA.md) - Security testing, branch protection validation, alerting tests
 
 ### Detailed Task Guides
+
+#### Security Tasks
 - [Task 1: Branch Protection Policies](./tasks/Task-01-PM-Branch-Protection.md) (PM)
 - [Task 2: Dependabot & Secret Scanning](./tasks/Task-02-DEV-Dependabot-SecretScanning.md) (Developer)
 - [Task 3: Security Testing](./tasks/Task-03-QA-Security-Tests.md) (QA)
-- [Task 4: GitHub Enterprise Features](./tasks/Task-04-GitHub-Enterprise-Features.md) (All Roles)
+
+#### GitHub Enterprise Features
+- [Task 4: GitHub Enterprise Security Features](./tasks/Task-04-GitHub-Enterprise-Features.md) - Codespaces, GHAS, Audit Log
+- [Task 5: GitHub Enterprise Advanced Features](./tasks/Task-05-GitHub-Enterprise-Advanced.md) - Copilot Enterprise, SSO/SAML, EMU, Actions Enterprise
+- [Task 6: GitHub Projects & Issues Enterprise](./tasks/Task-06-GitHub-Projects-Enterprise.md) - Projects, Issue Forms, Discussions
+
+---
 
 ### GitHub Enterprise Features Covered
+
+#### Security & Compliance
 - **GitHub Codespaces** - Secure cloud development environment
 - **GitHub Advanced Security (GHAS)** - Code scanning, secret scanning, dependency review
 - **Audit Log** - Compliance and security monitoring
 - **Security Overview** - Organization-wide security dashboard
+- **IP Allow Lists** - Network access control
+- **Repository Rulesets** - Consistent policy enforcement
+
+#### Identity & Access Management
+- **SAML Single Sign-On (SSO)** - Enterprise authentication
+- **Team Synchronization** - IdP group to GitHub team sync
+- **Enterprise Managed Users (EMU)** - Full user lifecycle management
+- **SCIM Provisioning** - Automated user provisioning
+
+#### Development & Collaboration
+- **GitHub Copilot Enterprise** - AI-powered coding with knowledge bases
+- **GitHub Actions Enterprise** - Self-hosted runners, required workflows, larger runners
+- **GitHub Projects (New)** - Advanced project management with custom fields
+- **Issue Forms** - Structured issue creation
+- **Discussions** - Community engagement and Q&A
+- **Tasklists & Sub-issues** - Hierarchical issue management
+
+#### Insights & Reporting
+- **Enterprise Insights** - Organization-wide metrics
+- **Project Insights** - Burndown charts, velocity tracking
+- **API & Webhooks** - Integration and automation
 
 ---
 
