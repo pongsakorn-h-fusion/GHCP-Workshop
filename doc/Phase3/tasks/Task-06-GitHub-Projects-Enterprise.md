@@ -8,11 +8,11 @@
 
 ## Objectives
 
-- ใช้งาน GitHub Projects (New) สำหรับ Enterprise
-- ตั้งค่า Issue Forms และ Templates
-- ใช้งาน GitHub Discussions
-- เปิดใช้งาน Tasklists และ Sub-issues
-- จัดการ Roadmaps และ Insights
+- Use GitHub Projects (New) for Enterprise
+- Configure Issue Forms and Templates
+- Use GitHub Discussions
+- Enable Tasklists and Sub-issues
+- Manage Roadmaps and Insights
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@
 
 ### Overview
 
-GitHub Projects (New) ให้ความสามารถในการจัดการโปรเจคแบบ flexible:
+GitHub Projects (New) provides flexible project management capabilities:
 
 | Feature | Free | Team | Enterprise |
 |---------|------|------|------------|
@@ -96,7 +96,7 @@ Visibility:
 
 #### 2.1 Built-in Fields
 
-Projects มี built-in fields พื้นฐาน:
+Projects have basic built-in fields:
 - **Title** - Issue/PR title
 - **Assignees** - Who's working on it
 - **Status** - Current status (customizable)
@@ -284,7 +284,7 @@ Then:
 
 #### 4.2 Custom Automations with Actions
 
-สร้างไฟล์ `.github/workflows/project-automation.yml`:
+Create the file `.github/workflows/project-automation.yml`:
 
 ```yaml
 name: Project Automation
@@ -384,7 +384,7 @@ Filter: Status != Done
 
 #### 6.1 Create Issue Form
 
-สร้างไฟล์ `.github/ISSUE_TEMPLATE/bug_report.yml`:
+Create the file `.github/ISSUE_TEMPLATE/bug_report.yml`:
 
 ```yaml
 name: Bug Report
@@ -489,7 +489,7 @@ body:
 
 #### 6.2 Feature Request Form
 
-สร้างไฟล์ `.github/ISSUE_TEMPLATE/feature_request.yml`:
+Create the file `.github/ISSUE_TEMPLATE/feature_request.yml`:
 
 ```yaml
 name: Feature Request
@@ -612,7 +612,7 @@ In the tasklist:
 
 #### 8.1 Template Chooser
 
-สร้างไฟล์ `.github/ISSUE_TEMPLATE/config.yml`:
+Create the file `.github/ISSUE_TEMPLATE/config.yml`:
 
 ```yaml
 blank_issues_enabled: false
@@ -685,7 +685,7 @@ Discussions → Categories → New category
 
 #### 9.3 Discussion Forms
 
-สร้างไฟล์ `.github/DISCUSSION_TEMPLATE/q-and-a.yml`:
+Create the file `.github/DISCUSSION_TEMPLATE/q-and-a.yml`:
 
 ```yaml
 title: "[Q&A] "
