@@ -26,12 +26,19 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                    Copilot Agent Capabilities                │
 ├─────────────────────────────────────────────────────────────┤
+│  👤 Assignee Mode     │  Assign @copilot to Issues/PRs      │
 │  📝 Issue Response    │  Automated Issue responses          │
 │  🔍 PR Review         │  Code review with suggestions       │
 │  🧪 Test Generation   │  Generate test cases from specs     │
 │  📋 Spec Generation   │  Generate specs from business rules │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+**How it works:**
+- Assign **@copilot** to any GitHub Issue or Pull Request
+- Copilot automatically analyzes the content
+- Provides detailed responses, suggestions, or reviews
+- Can interact through follow-up @mentions in comments
 
 **Spec Kit** - Spec-Driven Development toolkit
 - PM/BA: Define "what" and "why" before implementation
@@ -49,30 +56,61 @@
 
 **Demo 1: Copilot Agent in GitHub Issues (5 min)**
 
-1. Instructor opens GitHub Issue in workshop repository
-2. Types in Issue comment:
-   ```markdown
-   @copilot help write acceptance criteria for OTP login feature
-   ```
-3. Copilot responds with structured acceptance criteria
-4. Shows how to refine and iterate with follow-up questions
-5. Demonstrates @copilot in Pull Request reviews
+1. **Instructor creates new GitHub Issue**
+   - Title: "Feature: User Login System"
+   - Body: Brief description of login feature requirements
 
-**Expected Output:**
+2. **Assign Copilot to the Issue**
+   - Click "Assignees" in right sidebar
+   - Search for and select **@copilot**
+   - Show how Copilot appears as assignee
+
+3. **Submit Issue and wait**
+   - Click "Submit new issue"
+   - Wait ~10-20 seconds for Copilot to respond
+
+4. **Show Copilot's automatic response**
+   - Copilot adds a comment with detailed acceptance criteria
+   - Highlights Given-When-Then format
+   - Points out edge cases and non-functional requirements
+
+5. **Demonstrate interaction**
+   - Reply to Copilot's comment with follow-up question:
+     ```markdown
+     @copilot Can you add criteria for password reset flow?
+     ```
+   - Show Copilot's additional response
+
+6. **Bonus: Show Copilot in Pull Requests**
+   - Open existing PR
+   - Show how @copilot can review code
+   - Demonstrate asking Copilot questions about the changes
+
+**Expected Output from Copilot:**
 ```markdown
-## Acceptance Criteria: OTP Login
+## Acceptance Criteria: User Login
 
 ### Given
-- User has registered phone number
-- SMS service is operational
+- User has registered account
+- User is on login page
 
 ### When
-- User requests OTP via phone number
-- User enters OTP within 5 minutes
+- User enters valid credentials
+- User clicks login button
 
 ### Then
-- User successfully logs in
-- OTP is invalidated after use
+- ✅ User successfully logs in
+- ✅ User is redirected to dashboard
+- ✅ Session is created
+
+### Edge Cases
+**EC1: Invalid Credentials**
+- Show error message
+- Limit failed attempts
+
+**EC2: Account Locked**
+- Display lockout duration
+- Provide unlock options
 ...
 ```
 
@@ -149,8 +187,11 @@
 ### **Session 2: Copilot Agent Hands-on**
 
 #### Activity Overview
-PM/BA will create acceptance criteria using Copilot Agent in GitHub Issues
-Dev will generate unit tests using Copilot Agent in VS Code
+**PM/BA**: Assign Copilot to GitHub Issues to automatically generate acceptance criteria and technical specifications
+
+**Dev**: Use Copilot in VS Code to generate unit tests and implement features
+
+**Key Feature**: Learn how to use **Copilot as an Assignee** in GitHub Issues for automatic assistance
 
 ---
 
@@ -161,29 +202,39 @@ Dev will generate unit tests using Copilot Agent in VS Code
 2. Click on "Issues" tab
 3. Click "New Issue" button
 
-**Step 2: Select Feature Request Template**
-1. Choose "Feature Request" template (if available)
-2. Or start with blank issue
+**Step 2: Create Issue with Feature Description**
+1. Add Issue Title:
+   ```
+   Feature: OTP Login System
+   ```
 
-**Step 3: Write Feature Description**
-Type the following in the issue body:
-```markdown
-## Feature: OTP Login System
+2. Write the issue body:
+   ```markdown
+   ## Description
+   Users should be able to log in using their phone number and a one-time password (OTP).
 
-### Description
-Users should be able to log in using their phone number and a one-time password (OTP).
+   ## Business Rules
+   - OTP expires after 5 minutes
+   - OTP can only be used once
+   - After 3 failed attempts, lock account for 30 minutes
 
-### Business Rules
-- OTP expires after 5 minutes
-- OTP can only be used once
-- After 3 failed attempts, lock account for 30 minutes
+   ## Task for Copilot
+   Please generate detailed Acceptance Criteria for this feature using Given-When-Then format. Include edge cases and error scenarios.
+   ```
 
-@copilot Write detailed Acceptance Criteria for this feature using Given-When-Then format. Include edge cases.
-```
+**Step 3: Assign Copilot to the Issue**
+1. On the right sidebar, find "Assignees" section
+2. Click "Assignees"
+3. In the search box, type: `copilot`
+4. Select **@copilot** from the dropdown
+5. Copilot will be added as an assignee
 
-**Step 4: Wait for Copilot Response**
-- Copilot will generate acceptance criteria
-- Response appears in ~5-10 seconds
+**Step 4: Submit the Issue**
+1. Click "Submit new issue" button
+2. Wait for Copilot to process the issue (~10-20 seconds)
+
+**Step 5: Review Copilot's Response**
+Copilot will automatically add a comment with acceptance criteria:
 
 **Expected Copilot Response:**
 ```markdown
@@ -192,36 +243,83 @@ Users should be able to log in using their phone number and a one-time password 
 ### Given
 - User has registered phone number in the system
 - SMS service is operational
+- User is on the login page
 
 ### When
-1. User enters phone number and requests OTP
-2. User receives SMS and enters OTP within 5 minutes
+1. User enters valid phone number
+2. User requests OTP
+3. User receives OTP via SMS
+4. User enters OTP within 5 minutes
+5. User clicks verify button
 
 ### Then
-- User can successfully log in
-- Used OTP cannot be reused
-- If OTP expires, system displays "OTP expired, please request a new one"
+- ✅ User successfully logs into the system
+- ✅ User is redirected to dashboard
+- ✅ OTP is invalidated and cannot be reused
+- ✅ Session is created for the user
 
 ### Edge Cases
-- [ ] Enter wrong OTP 3 times → lock account for 30 minutes
-- [ ] OTP expired → show error and allow new request
-- [ ] SMS delivery failed → retry 3 times then notify error
+
+**EC1: OTP Expiration**
+- **Given**: User has requested OTP
+- **When**: User enters OTP after 5 minutes
+- **Then**: System shows "OTP expired, please request a new one"
+
+**EC2: Failed Attempts**
+- **Given**: User has entered wrong OTP 2 times
+- **When**: User enters wrong OTP the 3rd time
+- **Then**:
+  - Account is locked for 30 minutes
+  - System displays "Account locked due to multiple failed attempts"
+  - Lock countdown timer is shown
+
+**EC3: SMS Delivery Failure**
+- **Given**: SMS service is unavailable
+- **When**: User requests OTP
+- **Then**:
+  - System retries sending SMS 3 times
+  - If all attempts fail, show error message
+  - Suggest alternative login method
+
+**EC4: Invalid Phone Number**
+- **Given**: User enters unregistered phone number
+- **When**: User requests OTP
+- **Then**: System shows "Phone number not found. Please register first."
+
+### Non-Functional Requirements
+- OTP must be cryptographically secure (6 digits)
+- Response time < 500ms for OTP validation
+- SMS delivery within 30 seconds
+- Support concurrent OTP requests
+
+Would you like me to add any additional scenarios or clarify any requirements?
 ```
 
-**Step 5: Review and Refine**
-1. Read through the generated acceptance criteria
-2. If you need more details, ask follow-up questions:
-   ```markdown
-   @copilot Add acceptance criteria for SMS delivery retry mechanism
-   ```
-3. Edit the response to match your project needs
-4. Click "Submit new issue" when complete
+**Step 6: Interact with Copilot for Refinements**
+If you need more details, reply to Copilot's comment:
+```markdown
+@copilot Can you add acceptance criteria for the following:
+1. What happens if user requests multiple OTPs?
+2. How to handle OTP request rate limiting?
+```
+
+Copilot will respond with additional criteria.
+
+**Step 7: Finalize the Issue**
+1. Review all acceptance criteria
+2. Edit Copilot's response if needed (click "..." → "Edit")
+3. Add any manual refinements
+4. Add appropriate labels (e.g., "feature", "enhancement")
+5. Assign to developers if ready
 
 **✅ Checkpoint for PM/BA:**
-- [ ] Issue created with feature description
-- [ ] Acceptance criteria generated with @copilot
-- [ ] Edge cases identified
-- [ ] Criteria refined and published
+- [ ] Issue created with clear feature description
+- [ ] Copilot assigned to the issue
+- [ ] Acceptance criteria generated by Copilot
+- [ ] Edge cases comprehensively covered
+- [ ] Non-functional requirements specified
+- [ ] Follow-up questions asked if needed
+- [ ] Issue ready for development team
 
 ---
 
