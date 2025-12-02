@@ -472,9 +472,11 @@ cd workshop-sample-project
 # Check if .specify/ directory exists
 ls -la .specify/
 
-# If not exists, initialize:
-specify init product-search --ai claude
+# If not exists, initialize with GitHub Copilot:
+specify init product-search --ai copilot
 ```
+
+**Note:** We use `--ai copilot` to integrate with GitHub Copilot for this workshop. Other options include `--ai claude` or `--ai cursor-agent`.
 
 ---
 
@@ -982,7 +984,16 @@ jobs:
 
 **Best Practices:**
 
-1. **Write Clear Prompts**
+1. **Use Assignees Feature**
+   ```markdown
+   ✅ Assign @copilot to Issues/PRs for automatic assistance
+   ✅ Copilot analyzes entire context and provides comprehensive responses
+   ✅ Can track all issues/PRs where Copilot is working
+
+   ❌ Don't just @mention in comments without assigning
+   ```
+
+2. **Write Clear Prompts**
    ```markdown
    ❌ "Help write test"
    ✅ "Write unit test for function validateEmail
@@ -990,7 +1001,7 @@ jobs:
        including tests for both valid and invalid cases"
    ```
 
-2. **Provide Sufficient Context**
+3. **Provide Sufficient Context**
    ```markdown
    @copilot Context:
    - System uses TypeScript
@@ -1000,10 +1011,22 @@ jobs:
    Task: Generate tests for...
    ```
 
-3. **Review and Refine Output**
+4. **Use Spec Kit with GitHub Copilot**
+   ```bash
+   # Always initialize with --ai copilot for this workshop
+   specify init <feature-name> --ai copilot
+
+   # Use slash commands in Copilot Chat
+   /speckit.specify
+   /speckit.plan
+   /speckit.tasks
+   ```
+
+5. **Review and Refine Output**
    - Don't use generated code without review
    - Adapt to team coding standards
    - Verify edge cases
+   - Test thoroughly before merging
 
 #### Integrating Spec Kit + Playwright in CI/CD
 
@@ -1098,6 +1121,7 @@ jobs:
 - [ ] uv package manager (for Spec Kit)
 
 ### For PM/BA:
+- [ ] GitHub Copilot access enabled in your organization
 - [ ] Install Spec Kit CLI:
   ```bash
   # Install uv (Python package manager)
@@ -1105,8 +1129,10 @@ jobs:
 
   # Install Spec Kit
   uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+  # Initialize with Copilot (in your project)
+  specify init <project-name> --ai copilot
   ```
-- [ ] Preferred AI agent (Claude Code, GitHub Copilot, or Cursor)
 
 ### For Dev:
 - [ ] All PM/BA prerequisites
@@ -1202,7 +1228,18 @@ npx playwright --version
 
 ### Commands Reference:
 
-**Spec Kit Commands:**
+**Spec Kit Setup:**
+```bash
+# Initialize with GitHub Copilot
+specify init <project-name> --ai copilot
+
+# Or use other AI providers
+specify init <project-name> --ai claude
+specify init <project-name> --ai cursor-agent
+```
+
+**Spec Kit Slash Commands:**
+Use these commands in Copilot Chat (VS Code):
 - `/speckit.constitution` - Define project principles
 - `/speckit.specify` - Create feature specifications
 - `/speckit.clarify` - Run structured questioning
@@ -1210,6 +1247,11 @@ npx playwright --version
 - `/speckit.tasks` - Create task breakdown
 - `/speckit.implement` - Execute implementation
 - `/speckit.analyze` - Quality gate analysis
+
+**GitHub Copilot Agent:**
+- Assign **@copilot** to GitHub Issues or Pull Requests
+- Mention **@copilot** in comments to ask questions
+- Use in Issue descriptions to generate requirements
 
 ---
 
