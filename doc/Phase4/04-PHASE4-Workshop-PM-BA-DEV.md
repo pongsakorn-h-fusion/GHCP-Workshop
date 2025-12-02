@@ -165,158 +165,217 @@ describe('validateOTP', () => {
 
 ### **Session 3: Spec Kit Workshop (35 minutes)**
 
-#### PM/BA:
-- Create Test Specification from Business Requirements
-- Use Copilot to generate Spec Template
-- Understand relationship between Spec and Code
+#### Understanding Spec-Driven Development
+**Spec Kit** is GitHub's toolkit for Spec-Driven Development - a structured process where you define the "what" and "why" before the "how", using AI agents to help generate implementation plans and code.
 
-**Spec Template for PM/BA:**
-```markdown
-# Feature Specification: [Feature Name]
+#### Setup Spec Kit (5 minutes)
 
-## 1. Overview
-- **Feature Name**:
-- **Owner**:
-- **Priority**:
-- **Target Release**:
-
-## 2. Business Context
-### Problem Statement
-[Describe the problem to be solved]
-
-### Business Value
-[Describe the business value]
-
-### Success Metrics
-- [ ] Metric 1: [description] - Target: [value]
-- [ ] Metric 2: [description] - Target: [value]
-
-## 3. User Stories
-### Story 1
-**As a** [user type]
-**I want** [functionality]
-**So that** [benefit]
-
-#### Acceptance Criteria
-- [ ] Criteria 1
-- [ ] Criteria 2
-- [ ] Criteria 3
-
-## 4. Test Scenarios
-| ID | Scenario | Given | When | Then | Priority |
-|----|----------|-------|------|------|----------|
-| TS001 | | | | | High |
-| TS002 | | | | | Medium |
-
-## 5. Non-Functional Requirements
-- **Performance**:
-- **Security**:
-- **Accessibility**:
-
-## 6. Dependencies
-- [ ] Dependency 1
-- [ ] Dependency 2
-
-## 7. Risks & Mitigations
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| | | | |
-```
-
-#### Dev:
-- Integrate Spec Kit with actual code
-- Create Tests from Spec
-
-**Integration Example:**
-```typescript
-// spec-kit.config.ts
-import { defineConfig } from '@github/spec-kit';
-
-export default defineConfig({
-  specDir: './specs',
-  testDir: './tests',
-  outputFormat: 'markdown',
-  features: {
-    autoGenerate: true,
-    linkToCode: true,
-    traceability: true
-  }
-});
-```
-
-**Spec-to-Test Mapping:**
-```typescript
-// specs/login-otp.spec.ts
-import { describe, spec, test } from '@github/spec-kit';
-
-describe('OTP Login Feature', () => {
-  spec('User can login with valid OTP', {
-    given: ['User has registered phone number', 'SMS service is operational'],
-    when: ['User requests OTP', 'User enters OTP within 5 minutes'],
-    then: ['User is logged in successfully', 'OTP is invalidated'],
-    priority: 'high',
-    owner: 'auth-team'
-  });
-
-  test('should validate OTP correctly', async ({ page }) => {
-    // Test implementation
-    await page.goto('/login');
-    await page.fill('[data-testid=phone]', '0812345678');
-    await page.click('[data-testid=request-otp]');
-    // ... continue test
-  });
-});
-```
-
-#### Activities:
-
-**Clone Repo and create Spec**
+**Install Spec Kit CLI:**
 ```bash
-# Clone Spec Kit Repository
-git clone https://github.com/github/spec-kit.git
-cd spec-kit
+# Install Spec Kit
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 
-# Install dependencies
-npm install
-
-# Create your first spec
-mkdir -p specs
-touch specs/my-feature.spec.md
+# Or for one-time usage
+uvx --from git+https://github.com/github/spec-kit.git specify init my-project
 ```
 
-**Workshop Activity 3.1: Create Spec File**
-```markdown
-## For PM/BA:
-1. Create file specs/feature-name.spec.md
-2. Use template above
-3. Fill in Business Context and User Stories
-4. Ask Dev to review
-
-## For Dev:
-1. Review Spec created by PM/BA
-2. Add Technical Notes
-3. Create Test Cases from Spec
-4. Run spec validation:
-   ```bash
-   npm run spec:validate
-   npm run spec:test
-   ```
-```
-
-**Run Tests from Spec:**
+**Initialize Project:**
 ```bash
-# Validate spec format
-npm run spec:lint
-
-# Generate tests from spec
-npm run spec:generate-tests
-
-# Run all spec tests
-npm run spec:test
-
-# Generate coverage report
-npm run spec:coverage
+# Initialize with your preferred AI agent
+specify init otp-login-feature --ai claude
+# or --ai copilot
+# or --ai cursor-agent
 ```
+
+This creates a `.specify/` directory with:
+- `memory/constitution/` - Project principles
+- `specs/` - Feature specifications
+- `plans/` - Technical implementation plans
+- `tasks/` - Task breakdowns
+
+---
+
+#### PM/BA Workflow with Spec Kit (15 minutes)
+
+**Step 1: Define Project Constitution**
+Use `/speckit.constitution` command to establish non-negotiable principles:
+
+```markdown
+/speckit.constitution
+This is an authentication system with:
+- Security as top priority
+- Minimal external dependencies
+- Mobile-friendly design
+- Accessibility compliance (WCAG AA)
+```
+
+**Step 2: Create Feature Specification**
+Use `/speckit.specify` command to define requirements:
+
+```markdown
+/speckit.specify
+Build an OTP login system where:
+- Users login with phone number and OTP
+- OTP expires in 5 minutes
+- Account locks after 3 failed attempts
+- Support for SMS delivery retry
+- Real-time OTP expiry countdown
+```
+
+**Step 3: Clarify Requirements**
+Use `/speckit.clarify` to run structured questioning:
+
+```markdown
+/speckit.clarify
+```
+
+The AI will ask specific questions about:
+- Edge cases you haven't considered
+- Performance requirements
+- Error handling scenarios
+- User experience details
+
+**Step 4: Review Generated Specification**
+Spec Kit generates a markdown file in `.specify/specs/` with:
+- Problem statement
+- User stories
+- Acceptance criteria
+- Test scenarios
+- Non-functional requirements
+
+---
+
+#### Dev Workflow with Spec Kit (15 minutes)
+
+**Step 5: Create Technical Plan**
+Use `/speckit.plan` to generate implementation plan:
+
+```markdown
+/speckit.plan
+Use:
+- Node.js with Express
+- In-memory storage for demo
+- Simple HTML/CSS/JS frontend
+- Jest for unit tests
+- Playwright for E2E tests
+```
+
+**Step 6: Generate Task Breakdown**
+Use `/speckit.tasks` to create detailed tasks:
+
+```markdown
+/speckit.tasks
+```
+
+This generates `.specify/tasks/` with:
+- Implementation tasks
+- Testing tasks
+- Documentation tasks
+- Priority and dependencies
+
+**Step 7: Implement with AI Assistance**
+Use `/speckit.implement` to start building:
+
+```markdown
+/speckit.implement task-001-otp-validation
+```
+
+**Step 8: Quality Gate Analysis**
+Use `/speckit.analyze` to ensure consistency:
+
+```markdown
+/speckit.analyze
+```
+
+Checks that:
+- Specs align with constitution
+- Plans match specifications
+- Tasks cover all requirements
+
+---
+
+#### Complete Workflow Example
+
+```markdown
+# 1. Establish principles
+/speckit.constitution
+Secure, minimal dependencies, mobile-friendly
+
+# 2. Define feature
+/speckit.specify
+OTP login with 5-minute expiry and account locking
+
+# 3. Clarify details
+/speckit.clarify
+
+# 4. Create technical plan
+/speckit.plan
+Node.js, Express, Jest, Playwright
+
+# 5. Break down tasks
+/speckit.tasks
+
+# 6. Implement
+/speckit.implement
+
+# 7. Verify quality
+/speckit.analyze
+```
+
+---
+
+#### Workshop Activity 3.1: Hands-on Spec Kit
+
+**For PM/BA (15 minutes):**
+1. Initialize Spec Kit project
+2. Define constitution for your feature
+3. Use `/speckit.specify` to create specification
+4. Run `/speckit.clarify` and answer questions
+5. Review generated spec file
+
+**For Dev (15 minutes):**
+1. Review spec created by PM/BA
+2. Use `/speckit.plan` to create technical plan
+3. Use `/speckit.tasks` to generate task list
+4. Review task breakdown
+5. Run `/speckit.analyze` to verify consistency
+
+**Checkpoint:**
+- [ ] Constitution established
+- [ ] Specification created with Acceptance Criteria
+- [ ] Technical plan generated
+- [ ] Task breakdown complete
+- [ ] Quality analysis passed
+
+---
+
+#### Spec Kit Directory Structure
+
+```
+project/
+├── .specify/
+│   ├── memory/
+│   │   └── constitution/
+│   │       └── principles.md       # Project principles
+│   ├── specs/
+│   │   └── otp-login.md           # Feature specification
+│   ├── plans/
+│   │   └── technical-plan.md      # Implementation plan
+│   └── tasks/
+│       └── task-breakdown.md      # Detailed tasks
+├── src/
+└── tests/
+```
+
+---
+
+#### Key Benefits of Spec-Driven Development
+
+1. **Intent-Driven**: Focus on "what" and "why" before "how"
+2. **AI-Friendly**: Structured format works well with AI agents
+3. **Traceability**: Clear link from requirements to implementation
+4. **Quality Gates**: Built-in validation and consistency checks
+5. **Collaboration**: PM/BA and Dev work from same source of truth
 
 ---
 
@@ -707,16 +766,25 @@ jobs:
 - [ ] VS Code + GitHub Copilot Extension
 - [ ] Node.js (v18+) + npm
 - [ ] Git installed and configured
+- [ ] Python 3.8+ (for Spec Kit CLI)
+- [ ] uv package manager (for Spec Kit)
+
+### For PM/BA:
+- [ ] Install Spec Kit CLI:
+  ```bash
+  # Install uv (Python package manager)
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+
+  # Install Spec Kit
+  uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+  ```
+- [ ] Preferred AI agent (Claude Code, GitHub Copilot, or Cursor)
 
 ### For Dev:
+- [ ] All PM/BA prerequisites
 - [ ] Install Playwright:
   ```bash
   npm init playwright@latest
-  ```
-- [ ] Clone Spec Kit Repository:
-  ```bash
-  git clone https://github.com/github/spec-kit
-  cd spec-kit && npm install
   ```
 - [ ] Sample Web App for testing (local or staging)
 
@@ -725,11 +793,20 @@ jobs:
 # Check Node.js version
 node --version  # Should be v18 or higher
 
+# Check Python version
+python --version  # Should be 3.8 or higher
+
 # Check npm
 npm --version
 
 # Check git
 git --version
+
+# Check uv (for Spec Kit)
+uv --version
+
+# Check Spec Kit installation
+specify --help
 
 # Check Playwright (after installation)
 npx playwright --version
@@ -776,17 +853,35 @@ npx playwright --version
 ### Documentation:
 - [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
 - [Spec Kit Repository](https://github.com/github/spec-kit)
+- [Spec Kit Official Site](https://speckit.org/)
+- [Spec Kit Documentation](https://github.com/github/spec-kit/tree/main/docs)
 - [Playwright Documentation](https://playwright.dev/)
+
+### Articles & Guides:
+- [Spec-Driven Development with AI - GitHub Blog](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
+- [Diving Into Spec-Driven Development - Microsoft](https://developer.microsoft.com/blog/spec-driven-development-spec-kit)
+- [GitHub Spec Kit Guide - LogRocket](https://blog.logrocket.com/github-spec-kit/)
 
 ### Video Tutorials:
 - GitHub Copilot Agent Overview
-- Spec Kit Getting Started
+- Spec Kit Quick Start Tutorial
 - Playwright for Beginners
 
 ### Sample Repositories:
-- Spec Kit Examples
+- [Spec Kit Examples](https://github.com/topics/spec-kit)
 - Playwright Test Examples
 - E2E Testing Best Practices
+
+### Commands Reference:
+
+**Spec Kit Commands:**
+- `/speckit.constitution` - Define project principles
+- `/speckit.specify` - Create feature specifications
+- `/speckit.clarify` - Run structured questioning
+- `/speckit.plan` - Generate technical plan
+- `/speckit.tasks` - Create task breakdown
+- `/speckit.implement` - Execute implementation
+- `/speckit.analyze` - Quality gate analysis
 
 ---
 
