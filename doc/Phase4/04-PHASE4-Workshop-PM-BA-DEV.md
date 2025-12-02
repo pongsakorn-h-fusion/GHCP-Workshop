@@ -484,8 +484,12 @@ specify init product-search --ai copilot
 
 **Step 1: Open Copilot Chat in VS Code**
 1. Open VS Code with workshop project
-2. Open Copilot Chat panel (Ctrl+Shift+I or Cmd+Shift+I)
-3. Ensure you're in Chat mode
+2. Open Copilot Chat:
+   - **Windows/Linux**: Press `Ctrl+Alt+I`
+   - **Mac**: Press `Cmd+Alt+I`
+   - Or click the Copilot icon in the Activity Bar (left sidebar)
+   - Or use Command Palette: `Ctrl+Shift+P` → "GitHub Copilot: Open Chat"
+3. Copilot Chat panel will appear on the right side
 
 **Step 2: Define Project Constitution**
 Type in Copilot Chat:
@@ -561,12 +565,18 @@ Review the Product Search specification and ask questions about:
 #### Activity 3.2: Dev - Generate Technical Plan and Tasks
 
 **Step 1: Review Specification**
-1. Open `.specify/specs/product-search.md`
+1. Open `.specify/specs/product-search.md` in VS Code
 2. Read through requirements carefully
 3. Understand acceptance criteria
 4. Note any technical concerns
 
-**Step 2: Generate Technical Implementation Plan**
+**Step 2: Open Copilot Chat**
+1. Open Copilot Chat (same as Activity 3.1):
+   - Press `Ctrl+Alt+I` (Windows/Linux) or `Cmd+Alt+I` (Mac)
+   - Or click Copilot icon in Activity Bar
+2. Ensure you can see the Chat panel
+
+**Step 3: Generate Technical Implementation Plan**
 Type in Copilot Chat:
 ```markdown
 /speckit.plan
@@ -590,7 +600,7 @@ create a technical implementation plan using:
   - Testing strategy
   - Performance considerations
 
-**Step 3: Generate Task Breakdown**
+**Step 4: Generate Task Breakdown**
 Type in Copilot Chat:
 ```markdown
 /speckit.tasks
@@ -611,13 +621,13 @@ Break down the Product Search implementation into actionable tasks with:
   - Dependencies
   - Acceptance criteria
 
-**Step 4: Review Task Breakdown**
+**Step 5: Review Task Breakdown**
 1. Open `.specify/tasks/task-breakdown.md`
 2. Check if all requirements are covered
 3. Verify task sizes are manageable
 4. Identify any missing tasks
 
-**Step 5: Run Quality Gate Analysis**
+**Step 6: Run Quality Gate Analysis**
 Type in Copilot Chat:
 ```markdown
 /speckit.analyze
