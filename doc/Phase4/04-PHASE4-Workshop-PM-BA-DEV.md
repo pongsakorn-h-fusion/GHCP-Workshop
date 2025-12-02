@@ -664,15 +664,20 @@ Check for:
 
 ```
 .specify/
-├── memory/constitution/
-│   └── principles.md          ← PM/BA: /speckit.constitution
-├── specs/
-│   └── product-search.md      ← PM/BA: /speckit.specify + /speckit.clarify
-├── plans/
-│   └── technical-plan.md      ← Dev: /speckit.plan
-└── tasks/
-    └── task-breakdown.md      ← Dev: /speckit.tasks
-                               ← Dev: /speckit.analyze (validation)
+│   ├── memory/
+│   │   └── constitution.md        ← PM/BA: /speckit.constitution
+│   ├── scripts/bash/
+│   │   ├── check-prerequisites.sh
+│   │   ├── common.sh
+│   │   ├── create-new-feature.sh
+│   │   ├── setup-plan.sh
+│   │   └── update-agent-context.sh
+│   └── templates/
+│       ├── agent-file-template.md
+│       ├── checklist-template.md
+│       ├── plan-template.md
+│       ├── spec-template.md
+│       └── tasks-template.md
 ```
 
 ---
@@ -681,18 +686,38 @@ Check for:
 
 ```
 project/
+├── .github/
+│   ├── agents/                         # GitHub Copilot agents configuration
+│   ├── prompts/                        # Custom AI prompts
+│   └── copilot-instructions.md         # Instructions for Copilot
 ├── .specify/
 │   ├── memory/
-│   │   └── constitution/
-│   │       └── principles.md       # Project principles
-│   ├── specs/
-│   │   └── otp-login.md           # Feature specification
-│   ├── plans/
-│   │   └── technical-plan.md      # Implementation plan
-│   └── tasks/
-│       └── task-breakdown.md      # Detailed tasks
-├── src/
-└── tests/
+│   │   └── constitution.md             # Project principles & guidelines
+│   ├── scripts/bash/
+│   │   ├── check-prerequisites.sh      # Check prerequisites script
+│   │   ├── common.sh                   # Common utilities
+│   │   ├── create-new-feature.sh       # Create new feature script
+│   │   ├── setup-plan.sh               # Setup plan script
+│   │   └── update-agent-context.sh     # Update agent context script
+│   └── templates/
+│       ├── agent-file-template.md      # Template for agent files
+│       ├── checklist-template.md       # Template for checklists
+│       ├── plan-template.md            # Template for plans
+│       ├── spec-template.md            # Template for specifications
+│       └── tasks-template.md           # Template for tasks
+├── .vscode/                            # VS Code configuration
+└── specs/
+    └── 001-product-search/             # Feature: Product Search
+        ├── checklists/
+        │   └── requirements.md         # Requirements checklist
+        ├── contracts/
+        │   └── search-api.yaml         # API contract (OpenAPI)
+        ├── data-model.md               # Data model definition
+        ├── plan.md                     # Technical implementation plan
+        ├── quickstart.md               # Quick start guide
+        ├── research.md                 # Research & analysis notes
+        ├── spec.md                     # Feature specification
+        └── tasks.md                    # Task breakdown
 ```
 
 ---
