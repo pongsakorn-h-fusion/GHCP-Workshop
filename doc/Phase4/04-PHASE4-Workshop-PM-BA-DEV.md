@@ -1,33 +1,33 @@
-# Phase 4: Workshop สำหรับ PM, BA และ Dev
+# Phase 4: Workshop for PM, BA and Dev
 
 ## Copilot Agent, Spec Kit & Playwright Workshop
 
-**Duration**: 2 ชั่วโมง
-**กลุ่มเป้าหมาย**: Project Manager (PM), Business Analyst (BA), Developer (Dev)
-**Prerequisites**: Phase 1, 2, และ 3 เสร็จสมบูรณ์
+**Duration**: 2 hours
+**Target Audience**: Project Manager (PM), Business Analyst (BA), Developer (Dev)
+**Prerequisites**: Completion of Phase 1, 2, and 3
 
 ---
 
-## ✅ โครงสร้าง Workshop (2 ชั่วโมง)
+## ✅ Workshop Structure (2 Hours)
 
-### **ช่วงที่ 1: Introduction & Context (15 นาที)**
+### **Session 1: Introduction & Context (15 minutes)**
 
-#### สำหรับ PM/BA:
-- ทำความเข้าใจว่า Copilot Agent ช่วยเพิ่ม Productivity ใน GitHub Workflow อย่างไร
-- การใช้ Spec Kit เพื่อกำหนด Requirement และ Test Specification
-- ความสำคัญของ Acceptance Criteria ที่ชัดเจน
+#### For PM/BA:
+- Understanding how Copilot Agent increases productivity in GitHub Workflow
+- Using Spec Kit to define Requirements and Test Specifications
+- Importance of clear Acceptance Criteria
 
-#### สำหรับ Dev:
-- Overview ของ Copilot Agent, Spec Kit และ Playwright ในงานจริง
-- การใช้ AI ช่วยในการ Generate Code และ Tests
-- Integration กับ CI/CD Pipeline
+#### For Dev:
+- Overview of Copilot Agent, Spec Kit and Playwright in real-world scenarios
+- Using AI to assist in Code and Test Generation
+- Integration with CI/CD Pipeline
 
-#### กิจกรรม:
-- **Demo Copilot Agent ตอบ Issue และ Review PR**
+#### Activities:
+- **Demo Copilot Agent responding to Issues and reviewing PRs**
   ```markdown
-  1. แสดงการใช้ Copilot Agent ใน GitHub Issues
-  2. สาธิตการ Auto-generate Response จาก Issue
-  3. แสดงการ Review PR อัตโนมัติ
+  1. Demonstrate using Copilot Agent in GitHub Issues
+  2. Show auto-generated responses from Issues
+  3. Demonstrate automatic PR review
   ```
 
 #### Copilot Agent Overview
@@ -35,62 +35,62 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                    Copilot Agent Capabilities                │
 ├─────────────────────────────────────────────────────────────┤
-│  📝 Issue Response    │  ตอบ Issues อัตโนมัติ              │
-│  🔍 PR Review         │  Review Code และให้ Suggestions    │
-│  🧪 Test Generation   │  สร้าง Test Cases จาก Requirements │
-│  📋 Spec Generation   │  สร้าง Spec จาก Business Rules    │
+│  📝 Issue Response    │  Automated Issue responses          │
+│  🔍 PR Review         │  Code review with suggestions       │
+│  🧪 Test Generation   │  Generate test cases from specs     │
+│  📋 Spec Generation   │  Generate specs from business rules │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### **ช่วงที่ 2: Copilot Agent Hands-on (30 นาที)**
+### **Session 2: Copilot Agent Hands-on (30 minutes)**
 
 #### PM/BA Focus:
-- ใช้ Copilot Agent ช่วยเขียน Acceptance Criteria หรือ Test Scenario ใน Issue
-- สร้าง User Stories ที่มีคุณภาพด้วย AI
+- Use Copilot Agent to write Acceptance Criteria or Test Scenarios in Issues
+- Create quality User Stories with AI assistance
 
-**ตัวอย่าง Prompt สำหรับ PM/BA:**
+**Example Prompt for PM/BA:**
 ```markdown
-@copilot ช่วยเขียน Acceptance Criteria สำหรับ:
-- Feature: ระบบ Login ด้วย OTP
-- User: ลูกค้าทั่วไป
-- Business Rule: OTP หมดอายุใน 5 นาที, ใช้ได้ครั้งเดียว
+@copilot Write Acceptance Criteria for:
+- Feature: OTP Login System
+- User: General customers
+- Business Rule: OTP expires in 5 minutes, single use only
 ```
 
 **Copilot Response Example:**
 ```markdown
-## Acceptance Criteria: Login ด้วย OTP
+## Acceptance Criteria: OTP Login
 
 ### Given
-- ผู้ใช้มีหมายเลขโทรศัพท์ที่ลงทะเบียนในระบบ
-- ระบบ SMS ทำงานปกติ
+- User has registered phone number in the system
+- SMS service is operational
 
 ### When
-1. ผู้ใช้กรอกหมายเลขโทรศัพท์และกดขอ OTP
-2. ผู้ใช้ได้รับ SMS และกรอก OTP ภายใน 5 นาที
+1. User enters phone number and requests OTP
+2. User receives SMS and enters OTP within 5 minutes
 
 ### Then
-- ผู้ใช้สามารถเข้าสู่ระบบได้สำเร็จ
-- OTP ที่ใช้แล้วจะไม่สามารถใช้ซ้ำได้
-- หาก OTP หมดอายุ ระบบแสดงข้อความ "OTP หมดอายุ กรุณาขอใหม่"
+- User can successfully log in
+- Used OTP cannot be reused
+- If OTP expires, system displays "OTP expired, please request a new one"
 
 ### Edge Cases
-- [ ] กรอก OTP ผิด 3 ครั้ง → ล็อคบัญชี 30 นาที
-- [ ] OTP หมดอายุ → แสดง error และให้ขอใหม่
-- [ ] SMS ส่งไม่สำเร็จ → retry 3 ครั้ง แล้วแจ้ง error
+- [ ] Enter wrong OTP 3 times → lock account for 30 minutes
+- [ ] OTP expired → show error and allow new request
+- [ ] SMS delivery failed → retry 3 times then notify error
 ```
 
 #### Dev Focus:
-- ใช้ Copilot Agent ช่วย Generate Unit Test และแก้ไขโค้ดใน Pull Request
-- Review และ Refactor Code ด้วย AI Suggestions
+- Use Copilot Agent to generate Unit Tests and fix code in Pull Requests
+- Review and Refactor Code with AI Suggestions
 
-**ตัวอย่าง Prompt สำหรับ Dev:**
+**Example Prompt for Dev:**
 ```markdown
-@copilot Generate unit tests สำหรับ function validateOTP ที่:
-- รับ parameter: otp (string), createdAt (timestamp)
-- เช็คว่า OTP ถูกต้องและไม่หมดอายุ (5 นาที)
-- Return: { valid: boolean, message: string }
+@copilot Generate unit tests for function validateOTP that:
+- Takes parameters: otp (string), createdAt (timestamp)
+- Checks if OTP is correct and not expired (5 minutes)
+- Returns: { valid: boolean, message: string }
 ```
 
 **Generated Test Example:**
@@ -137,40 +137,40 @@ describe('validateOTP', () => {
 });
 ```
 
-#### กิจกรรม:
-**สร้าง Issue และสั่ง Copilot Agent ให้ช่วยเขียน Spec/Test**
+#### Activities:
+**Create Issue and ask Copilot Agent to help write Spec/Test**
 
 ```markdown
 ## Workshop Activity 2.1
 
-### สำหรับ PM/BA:
-1. สร้าง Issue ใหม่ใน Repository
-2. ใช้ template "Feature Request"
-3. เขียน description เบื้องต้น
-4. ใช้ @copilot เพื่อ:
+### For PM/BA:
+1. Create new Issue in Repository
+2. Use "Feature Request" template
+3. Write initial description
+4. Use @copilot to:
    - Generate Acceptance Criteria
-   - สร้าง Test Scenarios
-   - ระบุ Edge Cases
+   - Create Test Scenarios
+   - Identify Edge Cases
 
-### สำหรับ Dev:
-1. เปิด Issue ที่ PM/BA สร้าง
-2. ใช้ @copilot เพื่อ:
+### For Dev:
+1. Open Issue created by PM/BA
+2. Use @copilot to:
    - Generate function skeleton
-   - สร้าง Unit Tests
+   - Create Unit Tests
    - Suggest implementation approach
-3. สร้าง PR และ link กับ Issue
+3. Create PR and link to Issue
 ```
 
 ---
 
-### **ช่วงที่ 3: Spec Kit Workshop (35 นาที)**
+### **Session 3: Spec Kit Workshop (35 minutes)**
 
 #### PM/BA:
-- สร้าง Test Specification จาก Business Requirement
-- ใช้ Copilot ช่วย Generate Spec Template
-- เข้าใจความสัมพันธ์ระหว่าง Spec และ Code
+- Create Test Specification from Business Requirements
+- Use Copilot to generate Spec Template
+- Understand relationship between Spec and Code
 
-**Spec Template สำหรับ PM/BA:**
+**Spec Template for PM/BA:**
 ```markdown
 # Feature Specification: [Feature Name]
 
@@ -182,10 +182,10 @@ describe('validateOTP', () => {
 
 ## 2. Business Context
 ### Problem Statement
-[อธิบายปัญหาที่ต้องการแก้ไข]
+[Describe the problem to be solved]
 
 ### Business Value
-[อธิบายคุณค่าทางธุรกิจ]
+[Describe the business value]
 
 ### Success Metrics
 - [ ] Metric 1: [description] - Target: [value]
@@ -224,8 +224,8 @@ describe('validateOTP', () => {
 ```
 
 #### Dev:
-- Integrate Spec Kit กับโค้ดจริง
-- สร้าง Tests จาก Spec
+- Integrate Spec Kit with actual code
+- Create Tests from Spec
 
 **Integration Example:**
 ```typescript
@@ -268,9 +268,9 @@ describe('OTP Login Feature', () => {
 });
 ```
 
-#### กิจกรรม:
+#### Activities:
 
-**Clone Repo และสร้าง Spec**
+**Clone Repo and create Spec**
 ```bash
 # Clone Spec Kit Repository
 git clone https://github.com/github/spec-kit.git
@@ -284,18 +284,18 @@ mkdir -p specs
 touch specs/my-feature.spec.md
 ```
 
-**Workshop Activity 3.1: สร้าง Spec File**
+**Workshop Activity 3.1: Create Spec File**
 ```markdown
-## สำหรับ PM/BA:
-1. สร้างไฟล์ specs/feature-name.spec.md
-2. ใช้ template ด้านบน
-3. กรอก Business Context และ User Stories
-4. ให้ Dev review
+## For PM/BA:
+1. Create file specs/feature-name.spec.md
+2. Use template above
+3. Fill in Business Context and User Stories
+4. Ask Dev to review
 
-## สำหรับ Dev:
-1. Review Spec ที่ PM/BA สร้าง
-2. เพิ่ม Technical Notes
-3. สร้าง Test Cases จาก Spec
+## For Dev:
+1. Review Spec created by PM/BA
+2. Add Technical Notes
+3. Create Test Cases from Spec
 4. Run spec validation:
    ```bash
    npm run spec:validate
@@ -303,7 +303,7 @@ touch specs/my-feature.spec.md
    ```
 ```
 
-**รัน Test จาก Spec:**
+**Run Tests from Spec:**
 ```bash
 # Validate spec format
 npm run spec:lint
@@ -320,58 +320,58 @@ npm run spec:coverage
 
 ---
 
-### **ช่วงที่ 4: Playwright Workshop (30 นาที)**
+### **Session 4: Playwright Workshop (30 minutes)**
 
 #### PM/BA:
-- เข้าใจการทำงานของ End-to-End Test และการ Mapping กับ User Journey
-- Review Test Results และ Reports
-- ทำความเข้าใจ Test Coverage
+- Understand End-to-End Testing and mapping to User Journey
+- Review Test Results and Reports
+- Understand Test Coverage
 
 **User Journey to E2E Test Mapping:**
 ```
-User Journey: สมัครสมาชิกและซื้อสินค้า
+User Journey: Register and Purchase Products
 ┌──────────────────────────────────────────────────────────┐
-│ Step 1: เข้าหน้า Home                                    │
+│ Step 1: Navigate to Home page                            │
 │         └─> test: homepage.spec.ts                       │
 │                                                          │
-│ Step 2: คลิก "สมัครสมาชิก"                               │
+│ Step 2: Click "Register"                                 │
 │         └─> test: registration.spec.ts                   │
 │                                                          │
-│ Step 3: กรอกข้อมูลและยืนยัน                              │
+│ Step 3: Fill form and confirm                            │
 │         └─> test: registration-form.spec.ts              │
 │                                                          │
-│ Step 4: เข้าสู่ระบบ                                      │
+│ Step 4: Login to system                                  │
 │         └─> test: login.spec.ts                          │
 │                                                          │
-│ Step 5: เลือกสินค้าและเพิ่มลงตะกร้า                       │
+│ Step 5: Select product and add to cart                   │
 │         └─> test: product-cart.spec.ts                   │
 │                                                          │
-│ Step 6: ชำระเงิน                                         │
+│ Step 6: Checkout                                         │
 │         └─> test: checkout.spec.ts                       │
 │                                                          │
-│ Step 7: ได้รับ Confirmation                              │
+│ Step 7: Receive Confirmation                             │
 │         └─> test: order-confirmation.spec.ts             │
 └──────────────────────────────────────────────────────────┘
 ```
 
 #### Dev:
-- เขียน Test Case ด้วย Playwright และใช้ Copilot ช่วย Generate Code
-- Debug และ Run Tests
-- Integration กับ CI/CD
+- Write Test Cases with Playwright and use Copilot to generate code
+- Debug and Run Tests
+- Integration with CI/CD
 
-**การติดตั้ง Playwright:**
+**Installing Playwright:**
 ```bash
 # Install Playwright
 npm init playwright@latest
 
-# หรือเพิ่มใน project ที่มีอยู่
+# Or add to existing project
 npm install -D @playwright/test
 
 # Install browsers
 npx playwright install
 ```
 
-**โครงสร้าง Project:**
+**Project Structure:**
 ```
 project/
 ├── tests/
@@ -391,7 +391,7 @@ project/
 └── package.json
 ```
 
-**ตัวอย่าง Test Case พร้อม Copilot:**
+**Test Case Example with Copilot:**
 ```typescript
 // tests/e2e/auth/login.spec.ts
 import { test, expect } from '@playwright/test';
@@ -432,7 +432,7 @@ test.describe('OTP Login Flow', () => {
     await page.click('[data-testid="verify-btn"]');
 
     await expect(page.locator('[data-testid="error-message"]'))
-      .toContainText('OTP หมดอายุ');
+      .toContainText('OTP expired');
   });
 
   test('should lock account after 3 failed attempts', async ({ page }) => {
@@ -450,7 +450,7 @@ test.describe('OTP Login Flow', () => {
     }
 
     await expect(page.locator('[data-testid="account-locked"]'))
-      .toContainText('บัญชีถูกล็อค');
+      .toContainText('Account locked');
   });
 });
 ```
@@ -506,49 +506,49 @@ export default defineConfig({
 });
 ```
 
-#### กิจกรรม:
+#### Activities:
 
-**Workshop Activity 4.1: ติดตั้งและรัน Playwright**
+**Workshop Activity 4.1: Install and Run Playwright**
 ```bash
-# สร้าง project ใหม่
+# Create new project
 mkdir playwright-workshop
 cd playwright-workshop
 npm init -y
 
-# ติดตั้ง Playwright
+# Install Playwright
 npm init playwright@latest
 
-# รัน example tests
+# Run example tests
 npx playwright test
 
-# ดู report
+# View report
 npx playwright show-report
 ```
 
-**Workshop Activity 4.2: เขียน Test Case**
+**Workshop Activity 4.2: Write Test Case**
 ```markdown
-## สำหรับทุกคน:
+## For Everyone:
 
-### ขั้นตอนที่ 1: เลือก User Journey
-PM/BA: กำหนด User Journey ที่ต้องการ test
-- ตัวอย่าง: "ผู้ใช้สามารถค้นหาสินค้าและเพิ่มลงตะกร้าได้"
+### Step 1: Choose User Journey
+PM/BA: Define User Journey to test
+- Example: "User can search for products and add to cart"
 
-### ขั้นตอนที่ 2: เขียน Test Steps
-PM/BA: เขียน Test Steps เป็นภาษาธรรมชาติ
+### Step 2: Write Test Steps
+PM/BA: Write Test Steps in natural language
 ```markdown
-1. เข้าหน้า Home
-2. พิมพ์ชื่อสินค้าในช่องค้นหา
-3. กดปุ่มค้นหา
-4. เลือกสินค้าจากผลลัพธ์
-5. กดปุ่มเพิ่มลงตะกร้า
-6. ตรวจสอบว่าสินค้าอยู่ในตะกร้า
+1. Navigate to Home page
+2. Type product name in search box
+3. Click search button
+4. Select product from results
+5. Click add to cart button
+6. Verify product is in cart
 ```
 
-### ขั้นตอนที่ 3: แปลงเป็น Code
-Dev: ใช้ Copilot แปลง Steps เป็น Playwright Code
+### Step 3: Convert to Code
+Dev: Use Copilot to convert Steps to Playwright Code
 ```
 
-**Integration กับ CI/CD:**
+**Integration with CI/CD:**
 ```yaml
 # .github/workflows/playwright.yml
 name: Playwright Tests
@@ -589,36 +589,36 @@ jobs:
 
 ---
 
-### **ช่วงที่ 5: Q&A + Best Practices (10 นาที)**
+### **Session 5: Q&A + Best Practices (10 minutes)**
 
-#### การใช้ Copilot Agent อย่างมีประสิทธิภาพ
+#### Using Copilot Agent Effectively
 
 **Best Practices:**
 
-1. **เขียน Prompt ที่ชัดเจน**
+1. **Write Clear Prompts**
    ```markdown
-   ❌ "ช่วยเขียน test"
-   ✅ "ช่วยเขียน unit test สำหรับ function validateEmail
-       ที่รับ email string และ return boolean
-       โดย test ทั้ง valid และ invalid cases"
+   ❌ "Help write test"
+   ✅ "Write unit test for function validateEmail
+       that takes email string and returns boolean
+       including tests for both valid and invalid cases"
    ```
 
-2. **ให้ Context เพียงพอ**
+2. **Provide Sufficient Context**
    ```markdown
    @copilot Context:
-   - ระบบใช้ TypeScript
+   - System uses TypeScript
    - Testing framework: Jest
-   - ต้อง cover edge cases
+   - Must cover edge cases
 
    Task: Generate tests for...
    ```
 
-3. **Review และปรับแต่ง Output**
-   - ไม่ใช้ generated code โดยไม่ review
-   - ปรับให้เข้ากับ coding standards ของทีม
-   - ตรวจสอบ edge cases
+3. **Review and Refine Output**
+   - Don't use generated code without review
+   - Adapt to team coding standards
+   - Verify edge cases
 
-#### การ Integrate Spec Kit + Playwright ใน CI/CD
+#### Integrating Spec Kit + Playwright in CI/CD
 
 ```yaml
 # .github/workflows/spec-test.yml
@@ -681,35 +681,35 @@ jobs:
           test-results/
 ```
 
-#### Tips สำหรับแต่ละ Role
+#### Tips for Each Role
 
-**สำหรับ PM:**
-- ใช้ Copilot ช่วยเขียน User Stories และ Acceptance Criteria
-- Review Test Coverage Reports เพื่อตรวจสอบความครบถ้วน
-- ติดตาม Test Results ใน GitHub Actions
+**For PM:**
+- Use Copilot to write User Stories and Acceptance Criteria
+- Review Test Coverage Reports to verify completeness
+- Monitor Test Results in GitHub Actions
 
-**สำหรับ BA:**
-- ใช้ Spec Kit สร้าง Specification ที่ชัดเจน
-- Map User Journey กับ Test Cases
-- Collaborate กับ Dev ในการ Review Specs
+**For BA:**
+- Use Spec Kit to create clear Specifications
+- Map User Journey to Test Cases
+- Collaborate with Dev to Review Specs
 
-**สำหรับ Dev:**
-- ใช้ Copilot Generate Tests จาก Specs
-- Integrate Playwright กับ CI/CD Pipeline
-- Auto-generate Code จาก Acceptance Criteria
+**For Dev:**
+- Use Copilot to Generate Tests from Specs
+- Integrate Playwright with CI/CD Pipeline
+- Auto-generate Code from Acceptance Criteria
 
 ---
 
-## ✅ สิ่งที่ต้องเตรียม
+## ✅ Prerequisites
 
-### สำหรับทุกคน:
-- [ ] GitHub Account + เปิดใช้งาน Copilot Agent
+### For Everyone:
+- [ ] GitHub Account + Copilot Agent enabled
 - [ ] VS Code + GitHub Copilot Extension
 - [ ] Node.js (v18+) + npm
-- [ ] Git installed และ configured
+- [ ] Git installed and configured
 
-### สำหรับ Dev:
-- [ ] ติดตั้ง Playwright:
+### For Dev:
+- [ ] Install Playwright:
   ```bash
   npm init playwright@latest
   ```
@@ -718,20 +718,20 @@ jobs:
   git clone https://github.com/github/spec-kit
   cd spec-kit && npm install
   ```
-- [ ] ตัวอย่าง Web App สำหรับทดสอบ (local หรือ staging)
+- [ ] Sample Web App for testing (local or staging)
 
 ### Environment Check:
 ```bash
-# ตรวจสอบ Node.js version
-node --version  # ควรเป็น v18 ขึ้นไป
+# Check Node.js version
+node --version  # Should be v18 or higher
 
-# ตรวจสอบ npm
+# Check npm
 npm --version
 
-# ตรวจสอบ git
+# Check git
 git --version
 
-# ตรวจสอบ Playwright (หลังติดตั้ง)
+# Check Playwright (after installation)
 npx playwright --version
 ```
 
@@ -739,23 +739,23 @@ npx playwright --version
 
 ## ✅ Workshop Checklist
 
-### ก่อน Workshop:
-- [ ] ทุกคนมี GitHub account และ access ถูกต้อง
+### Before Workshop:
+- [ ] Everyone has GitHub account with proper access
 - [ ] Copilot license activated
-- [ ] IDE และ extensions พร้อมใช้งาน
-- [ ] Repository ที่ใช้ workshop สร้างเรียบร้อย
+- [ ] IDE and extensions ready
+- [ ] Workshop repository created
 
-### ระหว่าง Workshop:
-- [ ] Demo Copilot Agent ทำงานได้
-- [ ] ทุกคนสามารถสร้าง Issue และใช้ Copilot ได้
-- [ ] PM/BA สร้าง Spec ได้สำเร็จ
-- [ ] Dev รัน Playwright tests ได้
+### During Workshop:
+- [ ] Demo Copilot Agent working
+- [ ] Everyone can create Issues and use Copilot
+- [ ] PM/BA successfully created Spec
+- [ ] Dev successfully ran Playwright tests
 
-### หลัง Workshop:
-- [ ] เก็บ feedback จากผู้เข้าร่วม
-- [ ] รวบรวม Best Practices ที่พบ
-- [ ] อัปเดต documentation
-- [ ] วางแผน follow-up sessions
+### After Workshop:
+- [ ] Collect feedback from participants
+- [ ] Document Best Practices discovered
+- [ ] Update documentation
+- [ ] Plan follow-up sessions
 
 ---
 
