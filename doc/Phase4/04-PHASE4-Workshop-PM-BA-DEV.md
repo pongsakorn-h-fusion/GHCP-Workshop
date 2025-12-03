@@ -817,13 +817,12 @@ Home Page → Enter Search Query → View Results → Filter by Category → Sor
 ```
 
 **Step 3: Define Test Data**
-```markdown
-### Test Data
-| Field | Value | Purpose |
-|-------|-------|---------|
-| Search Query | "laptop" | Valid product search |
-| Category | Electronics | Filter test |
-| Sort Option | Price: Low to High | Sort test |
+```json
+[
+  { "id": 1, "name": "Basic Laptop", "price": 15000, "category": "Electronics" },
+  { "id": 2, "name": "Pro Laptop", "price": 35000, "category": "Electronics" },
+  { "id": 3, "name": "Gaming Laptop", "price": 45000, "category": "Electronics" }
+]
 ```
 
 **Step 4: Specify Expected Results**
