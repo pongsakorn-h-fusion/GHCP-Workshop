@@ -862,26 +862,52 @@ npx playwright install chromium
 1. Navigate to `tests/e2e/` directory
 2. Create new file: `product-search.spec.js`
 3. Open in VS Code
+4. Keep the file open (empty or with basic imports)
 
-**Step 3: Write Test Structure with Copilot**
-Type the following comment in your test file:
-```javascript
-// @copilot Generate Playwright E2E test for Product Search feature
-// User Journey:
-// 1. Navigate to home page
-// 2. Enter "laptop" in search box
-// 3. Click search button
-// 4. Verify search results displayed
-// 5. Filter by "Electronics" category
-// 6. Sort by "Price: Low to High"
-// 7. Verify products are sorted correctly
-//
-// Use data-testid selectors for all elements
-// Include proper assertions with expect()
+**Step 3: Open Copilot Chat and Request Test Generation**
+1. Open Copilot Chat:
+   - Press `Ctrl+Alt+I` (Windows/Linux) or `Cmd+Alt+I` (Mac)
+   - Or click Copilot icon in Activity Bar
+2. Make sure the test file `product-search.spec.js` is selected/focused
+3. Type in Copilot Chat:
+
+```markdown
+Generate a Playwright E2E test for Product Search feature based on the user journey in test-scenarios/product-search-flow.md
+
+Requirements:
+- Test file: product-search.spec.js
+- User Journey:
+  1. Navigate to home page
+  2. Enter "laptop" in search box
+  3. Click search button
+  4. Verify search results displayed
+  5. Filter by "Electronics" category
+  6. Sort by "Price: Low to High"
+  7. Verify products are sorted correctly
+
+Guidelines:
+- Use data-testid selectors for all elements
+- Include proper assertions with expect()
+- Use async/await pattern
+- Add descriptive test names
 ```
 
-**Step 4: Accept Copilot Suggestions**
-Copilot will generate something like:
+**Step 4: Review and Insert Generated Code**
+Copilot will generate the test code in the Chat panel:
+1. Review the generated code carefully
+2. Look for the code block in Chat response
+3. Use one of these methods to insert:
+   - Click **"Insert at Cursor"** button (if file is focused)
+   - Click **"Copy"** button and paste manually
+   - Or click **"Insert into New File"** to create a new file
+4. Verify the code is inserted into `product-search.spec.js`
+
+**Tips:**
+- If code is not complete, ask follow-up question: "@copilot can you add error handling?"
+- If you want to modify, ask: "@copilot add test for empty search results"
+- Reference the user journey document: "based on test-scenarios/product-search-flow.md"
+
+**Expected Generated Code:**
 ```javascript
 import { test, expect } from '@playwright/test';
 
